@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useGame } from '../../context/GameContext';
+import SkillTextReveal from './SkillTextReveal';
+import './SkillTextReveal.css';
 import portfolioData from '../../data/portfolio';
 
 export default function RetroSkills({ onNavigate }) {
@@ -52,10 +54,7 @@ export default function RetroSkills({ onNavigate }) {
                                     />
                                 </div>
                                 {isExpanded && (
-                                    <div className="retro-stat-item__details">
-                                        <span className="retro-stat-item__category">Category: {skill.category}</span>
-                                        <span className="retro-stat-item__power">Power Rating: {'★'.repeat(Math.ceil(skill.level / 20))}{'☆'.repeat(5 - Math.ceil(skill.level / 20))}</span>
-                                    </div>
+                                    <SkillTextReveal text={skill.desc} skillName={skill.name} />
                                 )}
                             </div>
                         );
