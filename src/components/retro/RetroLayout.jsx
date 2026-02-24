@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { GameProvider, useGame } from '../../context/GameContext';
+import { useTheme } from '../../context/ThemeContext';
+import AchievementPopup from './AchievementPopup';
 import RetroHero from './RetroHero';
 import RetroAbout from './RetroAbout';
 import RetroSkills from './RetroSkills';
@@ -16,29 +19,68 @@ const rooms = [
     { id: 'contact', label: 'Board', component: RetroContact },
 ];
 
-export default function RetroLayout() {
+function RetroGame() {
     const [currentRoom, setCurrentRoom] = useState('hero');
+    const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms, unlockAchievement } = useGame();
+    const { theme } = useTheme();
+    const initialTheme = useRef(theme);
+
+    // Track theme changes for "Reality Warper" achievement
+    useEffect(() => {
+        if (theme !== initialTheme.current) {
+            unlockAchievement('theme_changer');
+        }
+    }, [theme, unlockAchievement]);
+
+    const navigateToRoom = useCallback((roomId) => {
+        if (!isRoomUnlocked(roomId)) return;
+        setCurrentRoom(roomId);
+        visitRoom(roomId);
+    }, [isRoomUnlocked, visitRoom]);
 
     const ActiveRoom = rooms.find((r) => r.id === currentRoom)?.component || RetroHero;
+    const xpPercent = Math.min((xp / maxXp) * 100, 100);
 
     return (
         <div className="retro">
+            <AchievementPopup />
+
             {/* HUD Navigation */}
             <nav className="retro-hud">
-                {rooms.map((room) => (
-                    <button
-                        key={room.id}
-                        className={`retro-hud__btn ${currentRoom === room.id ? 'retro-hud__btn--active' : ''}`}
-                        onClick={() => setCurrentRoom(room.id)}
-                    >
-                        {room.label}
-                    </button>
-                ))}
+                <div className="retro-hud__left">
+                    <span className="retro-hud__level">LV.{level}</span>
+                    <div className="retro-hud__xp-bar">
+                        <div className="retro-hud__xp-fill" style={{ width: `${xpPercent}%` }} />
+                    </div>
+                    <span className="retro-hud__xp-text">{xp} XP</span>
+                </div>
+
+                <div className="retro-hud__rooms">
+                    {rooms.map((room) => {
+                        const unlocked = isRoomUnlocked(room.id);
+                        const visited = visitedRooms.includes(room.id);
+                        return (
+                            <button
+                                key={room.id}
+                                className={`retro-hud__btn ${currentRoom === room.id ? 'retro-hud__btn--active' : ''} ${!unlocked ? 'retro-hud__btn--locked' : ''} ${visited ? 'retro-hud__btn--visited' : ''}`}
+                                onClick={() => navigateToRoom(room.id)}
+                                disabled={!unlocked}
+                                title={!unlocked ? '🔒 Explore previous rooms to unlock' : room.label}
+                            >
+                                {unlocked ? (visited ? '✓ ' : '▸ ') : '🔒 '}{room.label}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <div className="retro-hud__right">
+                    <span className="retro-hud__trophies">🏆 {unlockedAchievements.length}/{12}</span>
+                </div>
             </nav>
 
             {/* Game Screen */}
             <main className="retro-screen" key={currentRoom}>
-                <ActiveRoom onNavigate={setCurrentRoom} />
+                <ActiveRoom onNavigate={navigateToRoom} />
             </main>
 
             {/* Footer */}
@@ -46,5 +88,13 @@ export default function RetroLayout() {
                 <p>Designed & Built with ❤️ | © {new Date().getFullYear()} | Retro Mode</p>
             </footer>
         </div>
+    );
+}
+
+export default function RetroLayout() {
+    return (
+        <GameProvider>
+            <RetroGame />
+        </GameProvider>
     );
 }
