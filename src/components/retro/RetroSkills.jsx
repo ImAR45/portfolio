@@ -25,7 +25,11 @@ export default function RetroSkills({ onNavigate }) {
     const skills = portfolioData.skills;
     const expandedIndex = skills.findIndex((s) => s.name === expandedSkill);
     const expandedRow = expandedIndex >= 0 ? Math.floor(expandedIndex / COLS) : -1;
+    const expandedCol = expandedIndex >= 0 ? expandedIndex % COLS : 0;
     const expandedData = expandedIndex >= 0 ? skills[expandedIndex] : null;
+
+    // Arrow position: center of the selected column (16.67%, 50%, 83.33%)
+    const arrowLeft = ((expandedCol + 0.5) / COLS) * 100;
 
     // Chunk skills into rows of COLS
     const rows = useMemo(() => {
@@ -82,7 +86,7 @@ export default function RetroSkills({ onNavigate }) {
                         {/* Full-width panel below this row when a card in it is expanded */}
                         {expandedRow === rowIdx && expandedData && (
                             <div className="retro-skill-panel" key={expandedData.name}>
-                                <div className="retro-skill-panel__arrow" />
+                                <div className="retro-skill-panel__arrow" style={{ left: `${arrowLeft}%` }} />
                                 <div className="retro-skill-panel__header">
                                     <span className="retro-skill-panel__icon">{expandedData.icon}</span>
                                     <span className="retro-skill-panel__name">{expandedData.name}</span>

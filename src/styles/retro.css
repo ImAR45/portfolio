@@ -591,14 +591,13 @@
 .retro-skill-panel__arrow {
     position: absolute;
     top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 14px;
     height: 14px;
     background: var(--bg-secondary);
     border-top: 2px solid var(--accent-2);
     border-left: 2px solid var(--accent-2);
     transform: translateX(-50%) rotate(45deg);
+    transition: left 0.3s ease;
 }
 
 .retro-skill-panel__header {
