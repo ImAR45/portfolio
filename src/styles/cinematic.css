@@ -1,0 +1,590 @@
+/* ================================
+   CINEMATIC EXPERIENCE STYLES
+   Scroll-driven, glassmorphism, dark
+   ================================ */
+
+/* --- Layout --- */
+.cinematic {
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.cinematic-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    position: relative;
+}
+
+/* --- Hero --- */
+.cinematic-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.cinematic-hero__particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.cinematic-hero__particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--accent-1);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: float-particle linear infinite;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.6;
+    }
+
+    90% {
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+.cinematic-hero__greeting {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent-2);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.cinematic-hero__name {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    background: var(--gradient-3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+
+.cinematic-hero__title {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.cinematic-hero__actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cinematic-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+}
+
+.cinematic-hero__btn--primary {
+    background: var(--gradient-1);
+    color: white;
+    box-shadow: 0 4px 20px var(--accent-1-glow);
+}
+
+.cinematic-hero__btn--primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px var(--accent-1-glow);
+}
+
+.cinematic-hero__btn--secondary {
+    background: var(--glass-bg);
+    color: var(--text);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+.cinematic-hero__btn--secondary:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--accent-2);
+    transform: translateY(-3px);
+}
+
+.cinematic-hero__scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: bounce-scroll 2s ease-in-out infinite;
+}
+
+.cinematic-hero__scroll-indicator span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.cinematic-hero__scroll-arrow {
+    width: 24px;
+    height: 24px;
+    border-right: 2px solid var(--accent-1);
+    border-bottom: 2px solid var(--accent-1);
+    transform: rotate(45deg);
+}
+
+@keyframes bounce-scroll {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* --- About --- */
+.cinematic-about {
+    padding: 100px 20px;
+}
+
+.cinematic-about__content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cinematic-section__label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent-1);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.cinematic-section__title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 32px;
+    line-height: 1.2;
+}
+
+.cinematic-about__card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+}
+
+.cinematic-about__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-1);
+}
+
+.cinematic-about__text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+/* --- Skills --- */
+.cinematic-skills {
+    padding: 100px 20px;
+}
+
+.cinematic-skills__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cinematic-skill-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.cinematic-skill-card:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+}
+
+.cinematic-skill-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.cinematic-skill-card__name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.cinematic-skill-card__icon {
+    font-size: 1.3rem;
+}
+
+.cinematic-skill-card__level {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-1);
+}
+
+.cinematic-skill-card__bar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.cinematic-skill-card__fill {
+    height: 100%;
+    background: var(--gradient-1);
+    border-radius: 3px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--accent-1-glow);
+}
+
+/* --- Experience --- */
+.cinematic-experience {
+    padding: 100px 20px;
+}
+
+.cinematic-timeline {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding-left: 40px;
+}
+
+.cinematic-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent-1), var(--accent-2), var(--accent-3));
+}
+
+.cinematic-timeline__item {
+    position: relative;
+    margin-bottom: 48px;
+}
+
+.cinematic-timeline__dot {
+    position: absolute;
+    left: -36px;
+    top: 8px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-1);
+    border: 3px solid var(--bg-primary);
+    box-shadow: 0 0 12px var(--accent-1-glow);
+}
+
+.cinematic-timeline__card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.cinematic-timeline__card:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+}
+
+.cinematic-timeline__period {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.cinematic-timeline__role {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.cinematic-timeline__company {
+    font-size: 0.9rem;
+    color: var(--accent-1);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.cinematic-timeline__desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.cinematic-timeline__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cinematic-timeline__tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: var(--glass-bg-hover);
+    color: var(--accent-2);
+    border: 1px solid var(--glass-border);
+    letter-spacing: 0.5px;
+}
+
+/* --- Projects --- */
+.cinematic-projects {
+    padding: 100px 20px;
+}
+
+.cinematic-projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cinematic-project-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.cinematic-project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--project-color, var(--gradient-1));
+    transition: height 0.3s ease;
+}
+
+.cinematic-project-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--glass-border-hover);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.cinematic-project-card:hover::before {
+    height: 6px;
+}
+
+.cinematic-project-card__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.cinematic-project-card__desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.cinematic-project-card__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.cinematic-project-card__tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: var(--glass-bg-hover);
+    color: var(--accent-1);
+    border: 1px solid var(--glass-border);
+}
+
+.cinematic-project-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-2);
+    transition: color 0.3s;
+}
+
+.cinematic-project-card__link:hover {
+    color: var(--accent-1);
+}
+
+/* --- Contact --- */
+.cinematic-contact {
+    padding: 100px 20px;
+}
+
+.cinematic-contact__content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cinematic-contact__text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+.cinematic-contact__socials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cinematic-social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.cinematic-social-link:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--accent-1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px var(--accent-1-glow);
+}
+
+.cinematic-social-link__icon {
+    font-size: 1.3rem;
+}
+
+/* --- Footer --- */
+.cinematic-footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--glass-border);
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 480px) {
+    .cinematic-section {
+        padding: 60px 16px;
+    }
+
+    .cinematic-about__card {
+        padding: 24px;
+    }
+
+    .cinematic-skills__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cinematic-projects__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cinematic-timeline {
+        padding-left: 32px;
+    }
+
+    .cinematic-hero__actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}

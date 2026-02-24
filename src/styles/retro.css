@@ -1,0 +1,609 @@
+/* ================================
+   RETRO GAME EXPERIENCE STYLES
+   Pixel-art, RPG-style, 8-bit
+   ================================ */
+
+/* --- Layout --- */
+.retro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-primary);
+    background: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scanline overlay */
+.retro::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.08) 2px,
+            rgba(0, 0, 0, 0.08) 4px);
+}
+
+/* --- HUD Navigation --- */
+.retro-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 80px 8px 16px;
+    background: var(--bg-secondary);
+    border-bottom: 3px solid var(--accent-1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.retro-hud__btn {
+    padding: 8px 16px;
+    font-family: var(--font-retro);
+    font-size: 0.55rem;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.retro-hud__btn:hover {
+    color: var(--accent-3);
+    border-color: var(--accent-3);
+}
+
+.retro-hud__btn--active {
+    color: var(--accent-1);
+    border-color: var(--accent-1);
+    background: rgba(233, 69, 96, 0.1);
+}
+
+.retro-hud__btn--active::before {
+    content: '▶ ';
+}
+
+/* --- Game Screen Container --- */
+.retro-screen {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 40px 40px;
+    min-height: 100vh;
+}
+
+.retro-room {
+    width: 100%;
+    max-width: 900px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    animation: room-enter 0.4s ease-out;
+}
+
+@keyframes room-enter {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- Pixel Border Utility --- */
+.retro-pixel-border {
+    border: 3px solid var(--accent-1);
+    box-shadow:
+        inset 0 0 0 2px var(--bg-primary),
+        inset 0 0 0 4px var(--accent-1),
+        0 0 20px var(--accent-1-glow);
+    background: var(--bg-secondary);
+}
+
+/* --- Retro Title --- */
+.retro-title {
+    font-family: var(--font-retro);
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    color: var(--accent-1);
+    text-align: center;
+    margin-bottom: 24px;
+    text-shadow: 0 0 10px var(--accent-1-glow);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.retro-subtitle {
+    font-family: var(--font-retro);
+    font-size: clamp(0.5rem, 1.2vw, 0.7rem);
+    color: var(--accent-3);
+    text-align: center;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+}
+
+/* ================================
+   HERO ROOM
+   ================================ */
+.retro-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.retro-hero__logo {
+    font-family: var(--font-retro);
+    font-size: clamp(1.2rem, 4vw, 2.5rem);
+    color: var(--accent-1);
+    text-shadow:
+        0 0 10px var(--accent-1-glow),
+        0 0 30px var(--accent-1-glow),
+        4px 4px 0 var(--bg-primary);
+    animation: retro-glow 2s ease-in-out infinite alternate;
+    line-height: 1.4;
+}
+
+@keyframes retro-glow {
+    from {
+        text-shadow: 0 0 10px var(--accent-1-glow), 0 0 30px var(--accent-1-glow), 4px 4px 0 var(--bg-primary);
+    }
+
+    to {
+        text-shadow: 0 0 20px var(--accent-1-glow), 0 0 50px var(--accent-1-glow), 0 0 80px var(--accent-1-glow), 4px 4px 0 var(--bg-primary);
+    }
+}
+
+.retro-hero__role {
+    font-family: var(--font-retro);
+    font-size: clamp(0.5rem, 1.5vw, 0.8rem);
+    color: var(--accent-2);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.retro-hero__prompt {
+    font-family: var(--font-retro);
+    font-size: 0.65rem;
+    color: var(--accent-3);
+    animation: blink-prompt 1s step-end infinite;
+    margin-top: 40px;
+}
+
+@keyframes blink-prompt {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.retro-hero__actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.retro-btn {
+    font-family: var(--font-retro);
+    font-size: 0.6rem;
+    padding: 12px 24px;
+    border: 3px solid var(--accent-1);
+    background: var(--bg-secondary);
+    color: var(--accent-1);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.retro-btn:hover {
+    background: var(--accent-1);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px var(--accent-1-glow);
+}
+
+.retro-btn--secondary {
+    border-color: var(--accent-2);
+    color: var(--accent-2);
+}
+
+.retro-btn--secondary:hover {
+    background: var(--accent-2);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px var(--accent-2-glow);
+}
+
+/* ================================
+   ABOUT / DIALOG BOX
+   ================================ */
+.retro-dialog {
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.retro-dialog__box {
+    padding: 32px;
+    position: relative;
+}
+
+.retro-dialog__speaker {
+    font-family: var(--font-retro);
+    font-size: 0.65rem;
+    color: var(--accent-3);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.retro-dialog__avatar {
+    font-size: 2rem;
+}
+
+.retro-dialog__text {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text-secondary);
+}
+
+.retro-dialog__cursor {
+    display: inline-block;
+    width: 10px;
+    height: 16px;
+    background: var(--accent-1);
+    margin-left: 4px;
+    animation: blink-prompt 0.8s step-end infinite;
+    vertical-align: text-bottom;
+}
+
+/* ================================
+   SKILLS / STATS SCREEN
+   ================================ */
+.retro-stats {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.retro-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.retro-stat-item {
+    padding: 16px 20px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--glass-border);
+    transition: all 0.2s ease;
+}
+
+.retro-stat-item:hover {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 15px var(--accent-1-glow);
+}
+
+.retro-stat-item__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.retro-stat-item__name {
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.retro-stat-item__level {
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    color: var(--accent-2);
+}
+
+.retro-stat-item__bar {
+    width: 100%;
+    height: 10px;
+    background: var(--bg-primary);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.retro-stat-item__fill {
+    height: 100%;
+    background: var(--accent-1);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* HP bar animation segments */
+.retro-stat-item__fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg,
+            transparent 0px,
+            transparent 6px,
+            var(--bg-primary) 6px,
+            var(--bg-primary) 8px);
+}
+
+/* ================================
+   EXPERIENCE / QUEST LOG
+   ================================ */
+.retro-quests {
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.retro-quest-item {
+    padding: 24px;
+    margin-bottom: 16px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--glass-border);
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.retro-quest-item:hover {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 15px var(--accent-2-glow);
+}
+
+.retro-quest-item__status {
+    font-family: var(--font-retro);
+    font-size: 0.45rem;
+    color: var(--accent-2);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.retro-quest-item__title {
+    font-family: var(--font-retro);
+    font-size: 0.6rem;
+    color: var(--accent-1);
+    margin-bottom: 6px;
+}
+
+.retro-quest-item__company {
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    color: var(--accent-3);
+    margin-bottom: 12px;
+}
+
+.retro-quest-item__desc {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+}
+
+.retro-quest-item__rewards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.retro-quest-item__tag {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    padding: 4px 10px;
+    border: 1px solid var(--accent-2);
+    color: var(--accent-2);
+    background: rgba(22, 198, 12, 0.1);
+}
+
+/* ================================
+   PROJECTS / TREASURE ROOM
+   ================================ */
+.retro-treasures {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.retro-treasures__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+.retro-treasure-item {
+    padding: 28px;
+    background: var(--bg-tertiary);
+    border: 3px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.retro-treasure-item::before {
+    content: '🎁';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.5rem;
+    opacity: 0.3;
+    transition: all 0.3s ease;
+}
+
+.retro-treasure-item:hover {
+    border-color: var(--accent-3);
+    box-shadow: 0 0 25px var(--accent-3-glow);
+    transform: translateY(-4px);
+}
+
+.retro-treasure-item:hover::before {
+    content: '✨';
+    opacity: 0.7;
+    transform: scale(1.3);
+}
+
+.retro-treasure-item__name {
+    font-family: var(--font-retro);
+    font-size: 0.6rem;
+    color: var(--accent-3);
+    margin-bottom: 12px;
+}
+
+.retro-treasure-item__desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.retro-treasure-item__loot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.retro-treasure-item__tag {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    padding: 4px 10px;
+    border: 1px solid var(--accent-1);
+    color: var(--accent-1);
+}
+
+.retro-treasure-item__link {
+    font-family: var(--font-retro);
+    font-size: 0.45rem;
+    color: var(--accent-2);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.retro-treasure-item__link:hover {
+    color: var(--accent-3);
+}
+
+/* ================================
+   CONTACT / QUEST BOARD
+   ================================ */
+.retro-board {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+.retro-board__text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.retro-board__links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.retro-board__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+    padding: 16px 24px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--glass-border);
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+}
+
+.retro-board__link:hover {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 15px var(--accent-1-glow);
+    transform: translateX(8px);
+}
+
+.retro-board__link-icon {
+    font-size: 1.3rem;
+}
+
+.retro-board__link-label {
+    color: var(--accent-2);
+    margin-right: auto;
+}
+
+.retro-board__link-arrow {
+    color: var(--accent-1);
+}
+
+/* --- Footer --- */
+.retro-footer {
+    text-align: center;
+    padding: 20px;
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    color: var(--text-muted);
+    border-top: 2px solid var(--glass-border);
+    letter-spacing: 1px;
+}
+
+/* --- Tablet Adjustments --- */
+@media (max-width: 1024px) and (min-width: 768px) {
+    .retro-hud {
+        gap: 2px;
+        padding: 8px 70px 8px 12px;
+    }
+
+    .retro-hud__btn {
+        font-size: 0.45rem;
+        padding: 6px 10px;
+    }
+
+    .retro-screen {
+        padding: 60px 24px 24px;
+    }
+
+    .retro-treasures__grid {
+        grid-template-columns: 1fr;
+    }
+}
