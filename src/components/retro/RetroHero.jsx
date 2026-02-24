@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useGame } from '../../context/GameContext';
+import RetroJourneyMap from './RetroJourneyMap';
 import portfolioData from '../../data/portfolio';
 
 export default function RetroHero({ onNavigate }) {
     const { unlockAchievement, visitRoom } = useGame();
+    const [showJourney, setShowJourney] = useState(false);
 
     const handleStartQuest = () => {
         unlockAchievement('first_step');
@@ -53,9 +56,17 @@ export default function RetroHero({ onNavigate }) {
                     📜 Download Scroll
                 </a>
             </div>
+            <button
+                className="retro-btn retro-btn--journey"
+                onClick={() => setShowJourney(true)}
+            >
+                🗺️ My Journey Map
+            </button>
             <p className="retro-hero__hint">
                 💡 Explore rooms to earn XP & unlock achievements!
             </p>
+
+            {showJourney && <RetroJourneyMap onClose={() => setShowJourney(false)} />}
         </div>
     );
 }

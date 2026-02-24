@@ -1,0 +1,371 @@
+/* ================================
+   JOURNEY MAP MODAL
+   ================================ */
+
+/* Overlay */
+.journey-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.3s ease;
+}
+
+/* Modal */
+.journey-modal {
+    width: 92vw;
+    max-width: 1200px;
+    background: var(--bg-primary, #0a0a1a);
+    border: 2px solid var(--accent-2, #16c60c);
+    box-shadow:
+        0 0 40px rgba(22, 198, 12, 0.15),
+        inset 0 0 40px rgba(22, 198, 12, 0.03);
+    animation: slide-up-modal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+}
+
+@keyframes slide-up-modal {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header */
+.journey-modal__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 2px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    background: var(--bg-secondary, #111128);
+}
+
+.journey-modal__title {
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.6rem;
+    color: var(--accent-2, #16c60c);
+    text-shadow: 0 0 10px rgba(22, 198, 12, 0.5);
+    margin: 0;
+}
+
+.journey-modal__subtitle {
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.3rem;
+    color: var(--text-muted, #666);
+    animation: blink-prompt 1.5s step-end infinite;
+}
+
+@keyframes blink-prompt {
+    50% {
+        opacity: 0;
+    }
+}
+
+.journey-modal__close {
+    margin-left: auto;
+    background: none;
+    border: 2px solid var(--accent-1, #e94560);
+    color: var(--accent-1, #e94560);
+    font-size: 1rem;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.journey-modal__close:hover {
+    background: var(--accent-1, #e94560);
+    color: white;
+    box-shadow: 0 0 12px rgba(233, 69, 96, 0.5);
+}
+
+/* Scrollable map area */
+.journey-map-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-2, #16c60c) var(--bg-tertiary, #1a1a3e);
+}
+
+.journey-map-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.journey-map-scroll::-webkit-scrollbar-track {
+    background: var(--bg-tertiary, #1a1a3e);
+}
+
+.journey-map-scroll::-webkit-scrollbar-thumb {
+    background: var(--accent-2, #16c60c);
+    border-radius: 4px;
+}
+
+/* Map canvas */
+.journey-map {
+    position: relative;
+    min-height: 420px;
+    background:
+        linear-gradient(180deg,
+            rgba(10, 10, 26, 1) 0%,
+            rgba(15, 15, 40, 1) 40%,
+            rgba(20, 30, 50, 1) 70%,
+            rgba(25, 40, 30, 1) 100%);
+}
+
+.journey-map__ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: repeating-linear-gradient(90deg,
+            rgba(22, 198, 12, 0.08) 0px,
+            rgba(22, 198, 12, 0.04) 20px,
+            rgba(22, 198, 12, 0.08) 40px);
+    border-top: 2px solid rgba(22, 198, 12, 0.15);
+}
+
+/* SVG */
+.journey-map__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.journey-map__path-line {
+    transition: stroke-dashoffset 2s ease-in-out;
+}
+
+/* ================================
+   MILESTONE NODES
+   ================================ */
+.journey-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.journey-node:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.journey-node__marker {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-2, #16c60c);
+    background: var(--bg-primary, #0a0a1a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(22, 198, 12, 0.2);
+    transition: all 0.3s;
+}
+
+.journey-node--hovered .journey-node__marker {
+    border-color: var(--accent-3, #ffd93d);
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.4);
+    background: var(--bg-secondary, #111128);
+}
+
+.journey-node--current .journey-node__marker {
+    border-color: var(--accent-3, #ffd93d);
+    box-shadow:
+        0 0 20px rgba(255, 217, 61, 0.4),
+        0 0 40px rgba(255, 217, 61, 0.15);
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 12px rgba(255, 217, 61, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(255, 217, 61, 0.6), 0 0 45px rgba(255, 217, 61, 0.2);
+    }
+}
+
+.journey-node__icon {
+    font-size: 1.2rem;
+}
+
+.journey-node__year {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.26rem;
+    color: var(--accent-2, #16c60c);
+    white-space: nowrap;
+    text-shadow: 0 0 5px rgba(22, 198, 12, 0.4);
+}
+
+.journey-node__here {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.28rem;
+    color: var(--accent-3, #ffd93d);
+    white-space: nowrap;
+    animation: bounce-here 1s ease-in-out infinite;
+    text-shadow: 0 0 8px rgba(255, 217, 61, 0.5);
+}
+
+@keyframes bounce-here {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-6px);
+    }
+}
+
+/* ================================
+   HOVER TOOLTIP
+   ================================ */
+.journey-tooltip {
+    position: absolute;
+    bottom: calc(100% + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    padding: 14px 16px;
+    background: var(--bg-secondary, #111128);
+    border: 2px solid var(--accent-3, #ffd93d);
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.2);
+    z-index: 50;
+    animation: tooltip-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.journey-tooltip--below {
+    bottom: auto;
+    top: calc(100% + 20px);
+}
+
+@keyframes tooltip-pop {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+.journey-tooltip__title {
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.35rem;
+    color: var(--accent-3, #ffd93d);
+    margin-bottom: 4px;
+    line-height: 1.6;
+}
+
+.journey-tooltip__year {
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.28rem;
+    color: var(--accent-2, #16c60c);
+    margin-bottom: 8px;
+}
+
+.journey-tooltip__info {
+    font-size: 0.78rem;
+    color: var(--text-secondary, #bbb);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ================================
+   SCENERY
+   ================================ */
+.journey-map__cloud {
+    position: absolute;
+    font-size: 1.8rem;
+    opacity: 0.3;
+    animation: cloud-drift 20s linear infinite;
+}
+
+.journey-map__cloud--1 {
+    top: 15px;
+    left: 10%;
+    animation-duration: 25s;
+}
+
+.journey-map__cloud--2 {
+    top: 35px;
+    left: 50%;
+    animation-duration: 30s;
+    font-size: 1.4rem;
+}
+
+.journey-map__cloud--3 {
+    top: 20px;
+    left: 80%;
+    animation-duration: 22s;
+}
+
+@keyframes cloud-drift {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(40px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.journey-map__tree {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.25;
+}
+
+.journey-map__mountain {
+    position: absolute;
+    bottom: 40px;
+    font-size: 2.2rem;
+    opacity: 0.15;
+}
+
+/* Legend */
+.journey-modal__legend {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    padding: 12px 24px;
+    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.28rem;
+    color: var(--text-muted, #666);
+}
