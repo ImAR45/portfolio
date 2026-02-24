@@ -3,250 +3,238 @@ import './RetroJourneyMap.css';
 
 const MILESTONES = [
     {
-        id: 'ssc',
-        icon: '🏫',
-        title: '10th Grade (SSC)',
-        year: '2016',
-        info: 'Completed schooling with flying colors. First spark of curiosity for technology was lit here!',
-        y: 70,  // vertical position (% from top, higher = lower on map)
+        id: 'ssc', icon: '🏫', title: '10th Grade (SSC)', year: '2016',
+        info: 'Completed schooling with flying colors. First spark of curiosity for technology!',
+        x: 8, y: 72,
     },
     {
-        id: 'hsc',
-        icon: '🎓',
-        title: '12th Grade (HSC)',
-        year: '2018',
+        id: 'hsc', icon: '🎓', title: '12th Grade (HSC)', year: '2018',
         info: 'Science stream warrior! Discovered the love for problem-solving and logical thinking.',
-        y: 40,
+        x: 18, y: 48,
     },
     {
-        id: 'college',
-        icon: '🏛️',
-        title: 'College Begins',
-        year: '2018',
-        info: 'Started B.Tech in Computer Science. The real adventure begins — algorithms, data structures, and late-night coding sessions.',
-        y: 55,
+        id: 'college', icon: '🏛️', title: 'College Begins', year: '2018',
+        info: 'Started B.Tech in Computer Science. Algorithms, data structures, and late-night coding!',
+        x: 28, y: 60,
     },
     {
-        id: 'first_code',
-        icon: '💻',
-        title: 'First Code',
-        year: '2019',
-        info: 'Wrote my first "Hello World" program in C. Felt like casting a spell for the first time! ✨',
-        y: 30,
+        id: 'first_code', icon: '💻', title: 'First Code', year: '2019',
+        info: 'Wrote my first "Hello World" in C. Felt like casting a spell for the first time! ✨',
+        x: 38, y: 35,
     },
     {
-        id: 'first_website',
-        icon: '🌐',
-        title: 'First Website',
-        year: '2020',
-        info: 'Built my first HTML/CSS page. It was ugly, but it was MINE. The web dev journey officially started.',
-        y: 60,
+        id: 'first_website', icon: '🌐', title: 'First Website', year: '2020',
+        info: 'Built my first HTML/CSS page. It was ugly, but it was MINE. The web dev journey began.',
+        x: 48, y: 55,
     },
     {
-        id: 'learning',
-        icon: '📚',
-        title: 'Deep Learning Phase',
-        year: '2020',
-        info: 'Dove deep into React, Node.js, and modern web development. Countless tutorials, projects, and Stack Overflow visits.',
-        y: 25,
+        id: 'learning', icon: '📚', title: 'Deep Learning Phase', year: '2020',
+        info: 'Deep dive into React, Node.js, and modern web dev. Countless tutorials & Stack Overflow.',
+        x: 58, y: 30,
     },
     {
-        id: 'first_project',
-        icon: '🎯',
-        title: 'First Real Project',
-        year: '2021',
-        info: 'TaskFlow Pro — my first production-grade project. Learned the difference between tutorials and real-world code.',
-        y: 50,
+        id: 'first_project', icon: '🎯', title: 'First Real Project', year: '2021',
+        info: 'TaskFlow Pro — first production-grade project. The difference between tutorials and reality.',
+        x: 66, y: 50,
     },
     {
-        id: 'first_job',
-        icon: '💼',
-        title: 'First Job',
-        year: '2021',
-        info: 'Junior Frontend Developer at WebSphere Solutions. Imposter syndrome hit hard, but grew through it!',
-        y: 35,
+        id: 'first_job', icon: '💼', title: 'First Job', year: '2021',
+        info: 'Junior Frontend Dev at WebSphere Solutions. Imposter syndrome hit hard, grew through it!',
+        x: 74, y: 38,
     },
     {
-        id: 'level_up',
-        icon: '🚀',
-        title: 'Level Up!',
-        year: '2022',
-        info: 'Promoted to Frontend Developer at PixelCraft Studios. Building interactive experiences for real clients.',
-        y: 20,
+        id: 'level_up', icon: '🚀', title: 'Level Up!', year: '2022',
+        info: 'Frontend Developer at PixelCraft Studios. Building interactive experiences for real clients.',
+        x: 84, y: 25,
     },
     {
-        id: 'current',
-        icon: '⭐',
-        title: 'Current Quest',
-        year: '2023–Now',
-        info: 'Senior Frontend Developer at TechNova Inc. Leading architecture, mentoring juniors, and building at scale.',
-        y: 15,
+        id: 'current', icon: '⭐', title: 'Current Quest', year: '2023–Now',
+        info: 'Senior Frontend Dev at TechNova Inc. Leading architecture, mentoring, building at scale.',
+        x: 93, y: 18,
     },
 ];
 
-// Generate SVG path through milestones
-function buildPath(milestones, mapWidth, mapHeight) {
-    const padding = 80;
-    const usableWidth = mapWidth - padding * 2;
-    const spacing = usableWidth / (milestones.length - 1);
+// Scenery elements scattered across the map
+const TREES = [
+    { x: 5, y: 40, type: '🌲', s: 1.6 }, { x: 12, y: 82, type: '🌳', s: 1.4 },
+    { x: 22, y: 30, type: '🌲', s: 1.3 }, { x: 25, y: 78, type: '🌳', s: 1.5 },
+    { x: 33, y: 75, type: '🌲', s: 1.2 }, { x: 35, y: 20, type: '🌲', s: 1.6 },
+    { x: 42, y: 80, type: '🌳', s: 1.4 }, { x: 45, y: 25, type: '🌲', s: 1.1 },
+    { x: 52, y: 15, type: '🌲', s: 1.5 }, { x: 55, y: 75, type: '🌳', s: 1.3 },
+    { x: 62, y: 82, type: '🌲', s: 1.6 }, { x: 65, y: 20, type: '🌳', s: 1.2 },
+    { x: 72, y: 75, type: '🌲', s: 1.4 }, { x: 78, y: 60, type: '🌳', s: 1.3 },
+    { x: 82, y: 78, type: '🌲', s: 1.5 }, { x: 88, y: 55, type: '🌲', s: 1.1 },
+    { x: 92, y: 72, type: '🌳', s: 1.4 }, { x: 96, y: 40, type: '🌲', s: 1.3 },
+];
 
-    const points = milestones.map((m, i) => ({
-        x: padding + i * spacing,
-        y: (m.y / 100) * (mapHeight - 120) + 40,
-    }));
+const MOUNTAINS = [
+    { x: 3, y: 18, type: '⛰️', s: 2.2 },
+    { x: 15, y: 10, type: '🏔️', s: 2.8 },
+    { x: 42, y: 8, type: '⛰️', s: 2.5 },
+    { x: 70, y: 12, type: '🏔️', s: 2.6 },
+    { x: 90, y: 8, type: '⛰️', s: 2.3 },
+];
 
-    // Build smooth bezier path
-    let d = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-        const prev = points[i - 1];
-        const curr = points[i];
+const HOUSES = [
+    { x: 10, y: 58, type: '🏠', s: 1.2 },
+    { x: 50, y: 70, type: '🏘️', s: 1.4 },
+    { x: 80, y: 48, type: '🏰', s: 1.5 },
+];
+
+// Build SVG road path through milestones
+function buildRoadPath(milestones) {
+    const pts = milestones.map((m) => ({ x: m.x, y: m.y }));
+    let d = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+        const prev = pts[i - 1];
+        const curr = pts[i];
         const cpx = (prev.x + curr.x) / 2;
         d += ` C ${cpx} ${prev.y}, ${cpx} ${curr.y}, ${curr.x} ${curr.y}`;
     }
-
-    return { d, points };
+    return d;
 }
 
 export default function RetroJourneyMap({ onClose }) {
     const [hoveredId, setHoveredId] = useState(null);
-    const [pathDrawn, setPathDrawn] = useState(false);
-    const scrollRef = useRef(null);
+    const [drawn, setDrawn] = useState(false);
+    const mapRef = useRef(null);
 
-    const mapWidth = Math.max(1400, MILESTONES.length * 160);
-    const mapHeight = 420;
-    const { d, points } = buildPath(MILESTONES, mapWidth, mapHeight);
+    const roadPath = buildRoadPath(MILESTONES);
 
     useEffect(() => {
-        // Trigger path drawing animation
-        const timer = setTimeout(() => setPathDrawn(true), 100);
-        return () => clearTimeout(timer);
-    }, []);
-
-    // Scroll to "YOU ARE HERE"
-    useEffect(() => {
-        if (scrollRef.current) {
-            const lastPoint = points[points.length - 1];
-            scrollRef.current.scrollLeft = lastPoint.x - scrollRef.current.clientWidth / 2;
-        }
+        const t = setTimeout(() => setDrawn(true), 100);
+        return () => clearTimeout(t);
     }, []);
 
     return (
-        <div className="journey-overlay" onClick={onClose}>
-            <div className="journey-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="jmap-overlay" onClick={onClose}>
+            <div className="jmap-modal" onClick={(e) => e.stopPropagation()}>
                 {/* Header */}
-                <div className="journey-modal__header">
-                    <h2 className="journey-modal__title">🗺️ My Journey Map</h2>
-                    <span className="journey-modal__subtitle">Scroll to explore the adventure →</span>
-                    <button className="journey-modal__close" onClick={onClose}>✕</button>
+                <div className="jmap-header">
+                    <h2 className="jmap-header__title">🗺️ The Journey So Far</h2>
+                    <span className="jmap-header__hint">Hover landmarks to explore → Scroll to navigate</span>
+                    <button className="jmap-header__close" onClick={onClose}>✕</button>
                 </div>
 
-                {/* Scrollable map area */}
-                <div className="journey-map-scroll" ref={scrollRef}>
-                    <div className="journey-map" style={{ width: mapWidth, height: mapHeight }}>
-                        {/* Background decorations */}
-                        <div className="journey-map__ground" />
-                        <div className="journey-map__cloud journey-map__cloud--1">☁️</div>
-                        <div className="journey-map__cloud journey-map__cloud--2">☁️</div>
-                        <div className="journey-map__cloud journey-map__cloud--3">⛅</div>
+                {/* Scrollable map viewport */}
+                <div className="jmap-viewport" ref={mapRef}>
+                    <div className="jmap-world">
+                        {/* Grass terrain base */}
+                        <div className="jmap-terrain" />
 
-                        {/* SVG Path */}
-                        <svg
-                            className="journey-map__svg"
-                            width={mapWidth}
-                            height={mapHeight}
-                            viewBox={`0 0 ${mapWidth} ${mapHeight}`}
-                        >
-                            {/* Path glow */}
+                        {/* River */}
+                        <svg className="jmap-river-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <path
-                                d={d}
+                                d="M -2 90 C 10 85, 15 92, 25 88 C 35 84, 40 95, 55 90 C 70 85, 75 92, 85 88 C 92 85, 95 90, 102 87"
                                 fill="none"
-                                stroke="rgba(22, 198, 12, 0.15)"
-                                strokeWidth="12"
+                                stroke="rgba(0, 140, 255, 0.35)"
+                                strokeWidth="3"
                                 strokeLinecap="round"
                             />
-                            {/* Main path */}
                             <path
-                                d={d}
+                                d="M -2 90 C 10 85, 15 92, 25 88 C 35 84, 40 95, 55 90 C 70 85, 75 92, 85 88 C 92 85, 95 90, 102 87"
                                 fill="none"
-                                stroke="var(--accent-2, #16c60c)"
-                                strokeWidth="4"
+                                stroke="rgba(100, 200, 255, 0.2)"
+                                strokeWidth="5"
                                 strokeLinecap="round"
-                                strokeDasharray={pathDrawn ? 'none' : '2000'}
-                                strokeDashoffset={pathDrawn ? '0' : '2000'}
-                                className="journey-map__path-line"
                             />
-                            {/* Dashed trail */}
-                            <path
-                                d={d}
-                                fill="none"
-                                stroke="rgba(22, 198, 12, 0.3)"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeDasharray="6 8"
+                        </svg>
+
+                        {/* Mountains (back layer) */}
+                        {MOUNTAINS.map((m, i) => (
+                            <div
+                                key={`mt-${i}`}
+                                className="jmap-scenery jmap-scenery--mountain"
+                                style={{ left: `${m.x}%`, top: `${m.y}%`, fontSize: `${m.s}rem` }}
+                            >
+                                {m.type}
+                            </div>
+                        ))}
+
+                        {/* Trees */}
+                        {TREES.map((t, i) => (
+                            <div
+                                key={`tr-${i}`}
+                                className="jmap-scenery jmap-scenery--tree"
+                                style={{ left: `${t.x}%`, top: `${t.y}%`, fontSize: `${t.s}rem` }}
+                            >
+                                {t.type}
+                            </div>
+                        ))}
+
+                        {/* Houses */}
+                        {HOUSES.map((h, i) => (
+                            <div
+                                key={`hs-${i}`}
+                                className="jmap-scenery jmap-scenery--house"
+                                style={{ left: `${h.x}%`, top: `${h.y}%`, fontSize: `${h.s}rem` }}
+                            >
+                                {h.type}
+                            </div>
+                        ))}
+
+                        {/* Road (SVG) */}
+                        <svg className="jmap-road-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            {/* Road shadow */}
+                            <path d={roadPath} fill="none" stroke="rgba(80, 50, 20, 0.5)" strokeWidth="4.5" strokeLinecap="round" />
+                            {/* Dirt road */}
+                            <path d={roadPath} fill="none" stroke="#8B6914" strokeWidth="3" strokeLinecap="round"
+                                className={`jmap-road-line ${drawn ? 'jmap-road-line--drawn' : ''}`}
+                            />
+                            {/* Road center dashes */}
+                            <path d={roadPath} fill="none" stroke="rgba(255, 217, 61, 0.4)" strokeWidth="0.5"
+                                strokeLinecap="round" strokeDasharray="1.5 2.5"
                             />
                         </svg>
 
                         {/* Milestone nodes */}
                         {MILESTONES.map((m, i) => {
-                            const pt = points[i];
                             const isHovered = hoveredId === m.id;
                             const isLast = i === MILESTONES.length - 1;
-
                             return (
                                 <div
                                     key={m.id}
-                                    className={`journey-node ${isHovered ? 'journey-node--hovered' : ''} ${isLast ? 'journey-node--current' : ''}`}
-                                    style={{ left: pt.x, top: pt.y }}
+                                    className={`jmap-node ${isHovered ? 'jmap-node--hover' : ''} ${isLast ? 'jmap-node--current' : ''}`}
+                                    style={{ left: `${m.x}%`, top: `${m.y}%` }}
                                     onMouseEnter={() => setHoveredId(m.id)}
                                     onMouseLeave={() => setHoveredId(null)}
                                 >
-                                    {/* Node marker */}
-                                    <div className="journey-node__marker">
-                                        <span className="journey-node__icon">{m.icon}</span>
+                                    <div className="jmap-node__pin">
+                                        <span className="jmap-node__icon">{m.icon}</span>
                                     </div>
+                                    <span className="jmap-node__flag">{m.year}</span>
 
-                                    {/* Year label */}
-                                    <span className="journey-node__year">{m.year}</span>
-
-                                    {/* "YOU ARE HERE" for last node */}
                                     {isLast && (
-                                        <div className="journey-node__here">
-                                            📍 YOU ARE HERE
-                                        </div>
+                                        <div className="jmap-node__here">📍 YOU ARE HERE</div>
                                     )}
 
-                                    {/* Hover tooltip */}
+                                    {/* Tooltip */}
                                     {isHovered && (
-                                        <div className={`journey-tooltip ${pt.y < 150 ? 'journey-tooltip--below' : ''}`}>
-                                            <div className="journey-tooltip__title">{m.icon} {m.title}</div>
-                                            <div className="journey-tooltip__year">{m.year}</div>
-                                            <p className="journey-tooltip__info">{m.info}</p>
+                                        <div className={`jmap-tip ${m.y < 35 ? 'jmap-tip--below' : ''}`}>
+                                            <div className="jmap-tip__icon">{m.icon}</div>
+                                            <div className="jmap-tip__title">{m.title}</div>
+                                            <div className="jmap-tip__year">{m.year}</div>
+                                            <p className="jmap-tip__info">{m.info}</p>
                                         </div>
                                     )}
                                 </div>
                             );
                         })}
 
-                        {/* Retro scenery elements */}
-                        <div className="journey-map__tree" style={{ left: 60, bottom: 30 }}>🌲</div>
-                        <div className="journey-map__tree" style={{ left: 280, bottom: 30 }}>🌳</div>
-                        <div className="journey-map__tree" style={{ left: 520, bottom: 30 }}>🌲</div>
-                        <div className="journey-map__tree" style={{ left: 750, bottom: 30 }}>🌳</div>
-                        <div className="journey-map__tree" style={{ left: 1000, bottom: 30 }}>🌲</div>
-                        <div className="journey-map__tree" style={{ left: 1200, bottom: 30 }}>🌳</div>
-
-                        {/* Mountains */}
-                        <div className="journey-map__mountain" style={{ left: 150 }}>⛰️</div>
-                        <div className="journey-map__mountain" style={{ left: 600 }}>🏔️</div>
-                        <div className="journey-map__mountain" style={{ left: 1050 }}>⛰️</div>
+                        {/* Clouds floating */}
+                        <div className="jmap-cloud" style={{ left: '8%', top: '3%' }}>☁️</div>
+                        <div className="jmap-cloud jmap-cloud--2" style={{ left: '35%', top: '5%' }}>⛅</div>
+                        <div className="jmap-cloud jmap-cloud--3" style={{ left: '60%', top: '2%' }}>☁️</div>
+                        <div className="jmap-cloud" style={{ left: '85%', top: '4%' }}>☁️</div>
                     </div>
                 </div>
 
                 {/* Legend */}
-                <div className="journey-modal__legend">
-                    <span>🟢 Completed</span>
-                    <span>⭐ Current</span>
-                    <span>💡 Hover nodes for details</span>
+                <div className="jmap-legend">
+                    <span>🟤 The Road So Far</span>
+                    <span>🏔️ Mountains of Challenge</span>
+                    <span>🌊 River of Learning</span>
+                    <span>� Current Position</span>
                 </div>
             </div>
         </div>

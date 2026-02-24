@@ -1,83 +1,91 @@
 /* ================================
-   JOURNEY MAP MODAL
+   RETRO 3D OVERWORLD JOURNEY MAP
    ================================ */
 
 /* Overlay */
-.journey-overlay {
+.jmap-overlay {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.88);
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: fade-in 0.3s ease;
+    animation: jmap-fadein 0.3s ease;
 }
 
-/* Modal */
-.journey-modal {
-    width: 92vw;
-    max-width: 1200px;
-    background: var(--bg-primary, #0a0a1a);
-    border: 2px solid var(--accent-2, #16c60c);
-    box-shadow:
-        0 0 40px rgba(22, 198, 12, 0.15),
-        inset 0 0 40px rgba(22, 198, 12, 0.03);
-    animation: slide-up-modal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    overflow: hidden;
-}
-
-@keyframes slide-up-modal {
+@keyframes jmap-fadein {
     from {
         opacity: 0;
-        transform: translateY(30px) scale(0.96);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+    }
+}
+
+/* Modal container */
+.jmap-modal {
+    width: 94vw;
+    max-width: 1300px;
+    max-height: 90vh;
+    background: #0c1a0c;
+    border: 3px solid #8B6914;
+    box-shadow:
+        0 0 0 3px #0c1a0c,
+        0 0 0 6px #5a4510,
+        0 0 60px rgba(139, 105, 20, 0.2);
+    animation: jmap-modal-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes jmap-modal-in {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
     }
 }
 
 /* Header */
-.journey-modal__header {
+.jmap-header {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 24px;
-    border-bottom: 2px solid var(--glass-border, rgba(255, 255, 255, 0.1));
-    background: var(--bg-secondary, #111128);
+    padding: 14px 20px;
+    background: linear-gradient(180deg, #1a2e10 0%, #0c1a0c 100%);
+    border-bottom: 2px solid #8B6914;
 }
 
-.journey-modal__title {
+.jmap-header__title {
     font-family: var(--font-retro, 'Press Start 2P', monospace);
-    font-size: 0.6rem;
-    color: var(--accent-2, #16c60c);
-    text-shadow: 0 0 10px rgba(22, 198, 12, 0.5);
+    font-size: 0.55rem;
+    color: #ffd93d;
+    text-shadow: 2px 2px 0 #5a4510, 0 0 12px rgba(255, 217, 61, 0.4);
     margin: 0;
 }
 
-.journey-modal__subtitle {
+.jmap-header__hint {
     font-family: var(--font-retro, 'Press Start 2P', monospace);
-    font-size: 0.3rem;
-    color: var(--text-muted, #666);
+    font-size: 0.25rem;
+    color: #7a9a5a;
     animation: blink-prompt 1.5s step-end infinite;
 }
 
-@keyframes blink-prompt {
-    50% {
-        opacity: 0;
-    }
-}
-
-.journey-modal__close {
+.jmap-header__close {
     margin-left: auto;
-    background: none;
-    border: 2px solid var(--accent-1, #e94560);
-    color: var(--accent-1, #e94560);
+    background: rgba(139, 105, 20, 0.2);
+    border: 2px solid #8B6914;
+    color: #ffd93d;
     font-size: 1rem;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -85,155 +93,293 @@
     transition: all 0.2s;
 }
 
-.journey-modal__close:hover {
-    background: var(--accent-1, #e94560);
-    color: white;
-    box-shadow: 0 0 12px rgba(233, 69, 96, 0.5);
+.jmap-header__close:hover {
+    background: #8B6914;
+    color: #0c1a0c;
 }
 
-/* Scrollable map area */
-.journey-map-scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 20px 0;
+/* ---------- MAP VIEWPORT ---------- */
+.jmap-viewport {
+    flex: 1;
+    overflow: auto;
+    cursor: grab;
     scrollbar-width: thin;
-    scrollbar-color: var(--accent-2, #16c60c) var(--bg-tertiary, #1a1a3e);
+    scrollbar-color: #8B6914 #0c1a0c;
 }
 
-.journey-map-scroll::-webkit-scrollbar {
+.jmap-viewport::-webkit-scrollbar {
+    width: 8px;
     height: 8px;
 }
 
-.journey-map-scroll::-webkit-scrollbar-track {
-    background: var(--bg-tertiary, #1a1a3e);
+.jmap-viewport::-webkit-scrollbar-track {
+    background: #0c1a0c;
 }
 
-.journey-map-scroll::-webkit-scrollbar-thumb {
-    background: var(--accent-2, #16c60c);
-    border-radius: 4px;
+.jmap-viewport::-webkit-scrollbar-thumb {
+    background: #8B6914;
 }
 
-/* Map canvas */
-.journey-map {
+/* The game world with perspective tilt */
+.jmap-world {
     position: relative;
-    min-height: 420px;
+    width: 1600px;
+    height: 600px;
+    transform: perspective(1200px) rotateX(18deg);
+    transform-origin: center 70%;
+
+    /* Pixel grass terrain */
     background:
+        /* Subtle grid pattern (retro tile look) */
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 39px,
+            rgba(100, 160, 60, 0.08) 39px,
+            rgba(100, 160, 60, 0.08) 40px),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 39px,
+            rgba(100, 160, 60, 0.08) 39px,
+            rgba(100, 160, 60, 0.08) 40px),
+        /* Grass gradient - lighter at top (far), darker at bottom (near) */
         linear-gradient(180deg,
-            rgba(10, 10, 26, 1) 0%,
-            rgba(15, 15, 40, 1) 40%,
-            rgba(20, 30, 50, 1) 70%,
-            rgba(25, 40, 30, 1) 100%);
+            #1a3a12 0%,
+            #1f4218 20%,
+            #224a1c 40%,
+            #265220 60%,
+            #2a5a24 80%,
+            #306228 100%);
+
+    image-rendering: pixelated;
+    border: 2px solid rgba(139, 105, 20, 0.3);
 }
 
-.journey-map__ground {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: repeating-linear-gradient(90deg,
-            rgba(22, 198, 12, 0.08) 0px,
-            rgba(22, 198, 12, 0.04) 20px,
-            rgba(22, 198, 12, 0.08) 40px);
-    border-top: 2px solid rgba(22, 198, 12, 0.15);
+/* ---------- TERRAIN ELEMENTS ---------- */
+.jmap-terrain {
+    display: none;
+    /* replaced by world background */
 }
 
-/* SVG */
-.journey-map__svg {
+/* River */
+.jmap-river-svg {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
     pointer-events: none;
 }
 
-.journey-map__path-line {
-    transition: stroke-dashoffset 2s ease-in-out;
+/* ---------- SVG ROAD ---------- */
+.jmap-road-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
 }
 
-/* ================================
-   MILESTONE NODES
-   ================================ */
-.journey-node {
+.jmap-road-line {
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    transition: stroke-dashoffset 2.5s ease-in-out;
+}
+
+.jmap-road-line--drawn {
+    stroke-dashoffset: 0;
+}
+
+/* ---------- SCENERY ---------- */
+.jmap-scenery {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.4));
+}
+
+.jmap-scenery--mountain {
+    z-index: 1;
+    filter: drop-shadow(3px 6px 3px rgba(0, 0, 0, 0.5)) brightness(0.85);
+}
+
+.jmap-scenery--tree {
+    z-index: 3;
+    animation: tree-sway 4s ease-in-out infinite;
+    animation-delay: var(--sway-delay, 0s);
+}
+
+.jmap-scenery--tree:nth-child(odd) {
+    --sway-delay: 0.5s;
+}
+
+.jmap-scenery--tree:nth-child(even) {
+    --sway-delay: 1.5s;
+}
+
+@keyframes tree-sway {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-50%, -50%) rotate(1.5deg);
+    }
+
+    75% {
+        transform: translate(-50%, -50%) rotate(-1.5deg);
+    }
+}
+
+.jmap-scenery--house {
+    z-index: 4;
+    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Clouds */
+.jmap-cloud {
+    position: absolute;
+    font-size: 2.2rem;
+    z-index: 20;
+    opacity: 0.5;
+    animation: cloud-float 18s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    pointer-events: none;
+}
+
+.jmap-cloud--2 {
+    animation-duration: 24s;
+    animation-delay: -5s;
+    font-size: 1.8rem;
+}
+
+.jmap-cloud--3 {
+    animation-duration: 20s;
+    animation-delay: -10s;
+    font-size: 2rem;
+}
+
+@keyframes cloud-float {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(60px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* ---------- MILESTONE NODES ---------- */
+.jmap-node {
     position: absolute;
     transform: translate(-50%, -50%);
     z-index: 10;
     cursor: pointer;
-    transition: transform 0.3s;
 }
 
-.journey-node:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.journey-node__marker {
-    width: 44px;
-    height: 44px;
+.jmap-node__pin {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    border: 3px solid var(--accent-2, #16c60c);
-    background: var(--bg-primary, #0a0a1a);
+    border: 3px solid #ffd93d;
+    background: radial-gradient(circle at 30% 30%, #3a2a10, #1a1200);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 12px rgba(22, 198, 12, 0.2);
-    transition: all 0.3s;
-}
-
-.journey-node--hovered .journey-node__marker {
-    border-color: var(--accent-3, #ffd93d);
-    box-shadow: 0 0 20px rgba(255, 217, 61, 0.4);
-    background: var(--bg-secondary, #111128);
-}
-
-.journey-node--current .journey-node__marker {
-    border-color: var(--accent-3, #ffd93d);
     box-shadow:
-        0 0 20px rgba(255, 217, 61, 0.4),
-        0 0 40px rgba(255, 217, 61, 0.15);
-    animation: pulse-glow 2s ease-in-out infinite;
+        0 4px 12px rgba(0, 0, 0, 0.6),
+        0 0 0 2px rgba(139, 105, 20, 0.4),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s;
+    position: relative;
 }
 
-@keyframes pulse-glow {
+.jmap-node__pin::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid #1a1200;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.jmap-node:hover .jmap-node__pin,
+.jmap-node--hover .jmap-node__pin {
+    border-color: #fff;
+    box-shadow:
+        0 0 20px rgba(255, 217, 61, 0.6),
+        0 4px 12px rgba(0, 0, 0, 0.6),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+    transform: scale(1.15);
+}
+
+.jmap-node--current .jmap-node__pin {
+    border-color: #16c60c;
+    box-shadow:
+        0 0 25px rgba(22, 198, 12, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.6),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+    animation: current-pulse 2s ease-in-out infinite;
+}
+
+@keyframes current-pulse {
 
     0%,
     100% {
-        box-shadow: 0 0 12px rgba(255, 217, 61, 0.3);
+        box-shadow: 0 0 15px rgba(22, 198, 12, 0.3), 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 
     50% {
-        box-shadow: 0 0 25px rgba(255, 217, 61, 0.6), 0 0 45px rgba(255, 217, 61, 0.2);
+        box-shadow: 0 0 35px rgba(22, 198, 12, 0.7), 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 }
 
-.journey-node__icon {
-    font-size: 1.2rem;
+.jmap-node__icon {
+    font-size: 1.3rem;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 
-.journey-node__year {
+.jmap-node__flag {
     position: absolute;
-    bottom: -22px;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-retro, 'Press Start 2P', monospace);
+    font-size: 0.22rem;
+    color: #ffd93d;
+    background: rgba(10, 10, 10, 0.8);
+    padding: 2px 8px;
+    border: 1px solid rgba(139, 105, 20, 0.5);
+    white-space: nowrap;
+    text-shadow: 0 0 4px rgba(255, 217, 61, 0.4);
+}
+
+.jmap-node__here {
+    position: absolute;
+    top: -32px;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-retro, 'Press Start 2P', monospace);
     font-size: 0.26rem;
-    color: var(--accent-2, #16c60c);
+    color: #16c60c;
     white-space: nowrap;
-    text-shadow: 0 0 5px rgba(22, 198, 12, 0.4);
+    text-shadow: 0 0 8px rgba(22, 198, 12, 0.6);
+    animation: here-bounce 1s ease-in-out infinite;
 }
 
-.journey-node__here {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-retro, 'Press Start 2P', monospace);
-    font-size: 0.28rem;
-    color: var(--accent-3, #ffd93d);
-    white-space: nowrap;
-    animation: bounce-here 1s ease-in-out infinite;
-    text-shadow: 0 0 8px rgba(255, 217, 61, 0.5);
-}
-
-@keyframes bounce-here {
+@keyframes here-bounce {
 
     0%,
     100% {
@@ -241,131 +387,103 @@
     }
 
     50% {
-        transform: translateX(-50%) translateY(-6px);
+        transform: translateX(-50%) translateY(-8px);
     }
 }
 
-/* ================================
-   HOVER TOOLTIP
-   ================================ */
-.journey-tooltip {
+/* ---------- TOOLTIP ---------- */
+.jmap-tip {
     position: absolute;
-    bottom: calc(100% + 20px);
+    bottom: calc(100% + 38px);
     left: 50%;
     transform: translateX(-50%);
-    width: 240px;
-    padding: 14px 16px;
-    background: var(--bg-secondary, #111128);
-    border: 2px solid var(--accent-3, #ffd93d);
-    box-shadow: 0 0 20px rgba(255, 217, 61, 0.2);
+    width: 260px;
+    padding: 16px;
+    background: linear-gradient(135deg, #1a1200, #2a1f0a);
+    border: 2px solid #ffd93d;
+    box-shadow: 0 0 30px rgba(255, 217, 61, 0.2), 0 8px 24px rgba(0, 0, 0, 0.7);
     z-index: 50;
-    animation: tooltip-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: tip-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
 }
 
-.journey-tooltip--below {
+.jmap-tip--below {
     bottom: auto;
-    top: calc(100% + 20px);
+    top: calc(100% + 38px);
 }
 
-@keyframes tooltip-pop {
+@keyframes tip-in {
     from {
         opacity: 0;
-        transform: translateX(-50%) scale(0.85);
+        transform: translateX(-50%) translateY(8px) scale(0.9);
     }
 
     to {
         opacity: 1;
-        transform: translateX(-50%) scale(1);
+        transform: translateX(-50%) translateY(0) scale(1);
     }
 }
 
-.journey-tooltip__title {
+.jmap-tip__icon {
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+}
+
+.jmap-tip__title {
     font-family: var(--font-retro, 'Press Start 2P', monospace);
-    font-size: 0.35rem;
-    color: var(--accent-3, #ffd93d);
+    font-size: 0.32rem;
+    color: #ffd93d;
     margin-bottom: 4px;
-    line-height: 1.6;
+    line-height: 1.8;
+    text-shadow: 0 0 6px rgba(255, 217, 61, 0.4);
 }
 
-.journey-tooltip__year {
+.jmap-tip__year {
     font-family: var(--font-retro, 'Press Start 2P', monospace);
-    font-size: 0.28rem;
-    color: var(--accent-2, #16c60c);
-    margin-bottom: 8px;
+    font-size: 0.24rem;
+    color: #16c60c;
+    margin-bottom: 10px;
 }
 
-.journey-tooltip__info {
-    font-size: 0.78rem;
-    color: var(--text-secondary, #bbb);
-    line-height: 1.6;
+.jmap-tip__info {
+    font-size: 0.8rem;
+    color: #c8b88a;
+    line-height: 1.7;
     margin: 0;
 }
 
-/* ================================
-   SCENERY
-   ================================ */
-.journey-map__cloud {
-    position: absolute;
-    font-size: 1.8rem;
-    opacity: 0.3;
-    animation: cloud-drift 20s linear infinite;
-}
-
-.journey-map__cloud--1 {
-    top: 15px;
-    left: 10%;
-    animation-duration: 25s;
-}
-
-.journey-map__cloud--2 {
-    top: 35px;
-    left: 50%;
-    animation-duration: 30s;
-    font-size: 1.4rem;
-}
-
-.journey-map__cloud--3 {
-    top: 20px;
-    left: 80%;
-    animation-duration: 22s;
-}
-
-@keyframes cloud-drift {
-    0% {
-        transform: translateX(0);
-    }
-
-    50% {
-        transform: translateX(40px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-.journey-map__tree {
-    position: absolute;
-    font-size: 1.5rem;
-    opacity: 0.25;
-}
-
-.journey-map__mountain {
-    position: absolute;
-    bottom: 40px;
-    font-size: 2.2rem;
-    opacity: 0.15;
-}
-
-/* Legend */
-.journey-modal__legend {
+/* ---------- LEGEND ---------- */
+.jmap-legend {
     display: flex;
-    gap: 24px;
+    gap: 28px;
     justify-content: center;
-    padding: 12px 24px;
-    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    border-top: 2px solid #8B6914;
+    background: linear-gradient(180deg, #0c1a0c, #1a2e10);
     font-family: var(--font-retro, 'Press Start 2P', monospace);
-    font-size: 0.28rem;
-    color: var(--text-muted, #666);
+    font-size: 0.24rem;
+    color: #7a9a5a;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .jmap-modal {
+        width: 98vw;
+        max-height: 85vh;
+    }
+
+    .jmap-world {
+        width: 1200px;
+        height: 500px;
+        transform: perspective(1000px) rotateX(14deg);
+    }
+
+    .jmap-header__hint {
+        display: none;
+    }
+
+    .jmap-legend {
+        gap: 12px;
+    }
 }
