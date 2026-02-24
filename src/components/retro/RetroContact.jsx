@@ -1,4 +1,5 @@
 import { useGame } from '../../context/GameContext';
+import { SoundManager } from '../../utils/SoundManager';
 import portfolioData from '../../data/portfolio';
 
 const socialIcons = {
@@ -64,6 +65,7 @@ export default function RetroContact() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="retro-board__link"
+                            onClick={() => SoundManager.play('contactOpen')}
                         >
                             <span className="retro-board__link-icon">
                                 {socialIcons[social.icon] || '🔗'}

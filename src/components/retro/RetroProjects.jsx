@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGame } from '../../context/GameContext';
+import { SoundManager } from '../../utils/SoundManager';
 import portfolioData from '../../data/portfolio';
 
 export default function RetroProjects({ onNavigate }) {
@@ -8,6 +9,7 @@ export default function RetroProjects({ onNavigate }) {
 
     const handleOpenChest = (index) => {
         if (!openedChests.includes(index)) {
+            SoundManager.play('treasureOpen');
             setOpenedChests((prev) => [...prev, index]);
             examineProject();
         }

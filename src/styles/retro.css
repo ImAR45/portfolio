@@ -124,6 +124,21 @@
     padding: 0 80px 0 12px;
 }
 
+.retro-hud__sound-toggle {
+    font-size: 1.1rem;
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.retro-hud__sound-toggle:hover {
+    border-color: var(--text-dim);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
 .retro-hud__trophies {
     font-family: var(--font-retro);
     font-size: 0.45rem;

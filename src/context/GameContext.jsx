@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback, useRef } from 'react';
+import { SoundManager } from '../utils/SoundManager';
 
 const GameContext = createContext();
 
@@ -57,11 +58,17 @@ export function GameProvider({ children }) {
 
             setXp((prevXp) => {
                 const newXp = prevXp + achievement.xp;
-                // Level up every 50 XP
-                setLevel(Math.floor(newXp / 50) + 1);
+                const newLevel = Math.floor(newXp / 50) + 1;
+                setLevel((prevLevel) => {
+                    if (newLevel > prevLevel) {
+                        setTimeout(() => SoundManager.play('levelUp'), 600);
+                    }
+                    return newLevel;
+                });
                 return newXp;
             });
 
+            SoundManager.play('achievement');
             showAchievement(achievement);
             return [...prev, achievementId];
         });

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { GameProvider, useGame } from '../../context/GameContext';
+import { SoundManager } from '../../utils/SoundManager';
 import AchievementPopup from './AchievementPopup';
 import TrophyRoadmap from './TrophyRoadmap';
 import RetroHero from './RetroHero';
@@ -24,11 +25,19 @@ function RetroGame() {
     const [showRoadmap, setShowRoadmap] = useState(false);
     const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms } = useGame();
 
+    const [soundMuted, setSoundMuted] = useState(false);
+
     const navigateToRoom = useCallback((roomId) => {
         if (!isRoomUnlocked(roomId)) return;
+        SoundManager.play('navigate');
         setCurrentRoom(roomId);
         visitRoom(roomId);
     }, [isRoomUnlocked, visitRoom]);
+
+    const toggleMute = () => {
+        const muted = SoundManager.toggleMute();
+        setSoundMuted(muted);
+    };
 
     const ActiveRoom = rooms.find((r) => r.id === currentRoom)?.component || RetroHero;
     const xpPercent = Math.min((xp / maxXp) * 100, 100);
@@ -68,8 +77,15 @@ function RetroGame() {
 
                 <div className="retro-hud__right">
                     <button
+                        className="retro-hud__sound-toggle"
+                        onClick={toggleMute}
+                        title={soundMuted ? 'Unmute' : 'Mute'}
+                    >
+                        {soundMuted ? '🔇' : '🔊'}
+                    </button>
+                    <button
                         className="retro-hud__trophies"
-                        onClick={() => setShowRoadmap(true)}
+                        onClick={() => { SoundManager.play('click'); setShowRoadmap(true); }}
                         title="View Trophy Roadmap"
                     >
                         🏆 {unlockedAchievements.length}/{11}

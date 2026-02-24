@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SoundManager } from '../../utils/SoundManager';
 import SkillTextReveal from './SkillTextReveal';
 import './SkillTextReveal.css';
 import portfolioData from '../../data/portfolio';
@@ -37,7 +38,10 @@ export default function RetroExperience({ onNavigate }) {
                                 {/* Quest card */}
                                 <div
                                     className={`retro-quest-card ${isExpanded ? 'retro-quest-card--expanded' : ''}`}
-                                    onClick={() => setExpandedQuest(isExpanded ? null : i)}
+                                    onClick={() => {
+                                        SoundManager.play(isExpanded ? 'cardDeselect' : 'questExpand');
+                                        setExpandedQuest(isExpanded ? null : i);
+                                    }}
                                 >
                                     {/* Header bar */}
                                     <div className="retro-quest-card__top">

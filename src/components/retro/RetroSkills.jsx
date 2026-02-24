@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useGame } from '../../context/GameContext';
+import { SoundManager } from '../../utils/SoundManager';
 import SkillTextReveal from './SkillTextReveal';
 import './SkillTextReveal.css';
 import portfolioData from '../../data/portfolio';
@@ -17,8 +18,10 @@ export default function RetroSkills({ onNavigate }) {
     }, []);
 
     const handleSkillClick = (skill) => {
+        const isDeselect = expandedSkill === skill.name;
+        SoundManager.play(isDeselect ? 'cardDeselect' : 'cardSelect');
         clickSkill(skill.name);
-        setExpandedSkill(expandedSkill === skill.name ? null : skill.name);
+        setExpandedSkill(isDeselect ? null : skill.name);
     };
 
     // Group skills into rows and figure out which row has the expanded skill

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 import RetroJourneyMap from './RetroJourneyMap';
+import { SoundManager } from '../../utils/SoundManager';
 import portfolioData from '../../data/portfolio';
 
 export default function RetroHero({ onNavigate }) {
@@ -8,6 +9,8 @@ export default function RetroHero({ onNavigate }) {
     const [showJourney, setShowJourney] = useState(false);
 
     const handleStartQuest = () => {
+        SoundManager.play('startQuest');
+        SoundManager.startMusic();
         unlockAchievement('first_step');
         visitRoom('hero');
         setTimeout(() => onNavigate('about'), 400);
@@ -58,7 +61,7 @@ export default function RetroHero({ onNavigate }) {
             </div>
             <button
                 className="retro-btn retro-btn--journey"
-                onClick={() => setShowJourney(true)}
+                onClick={() => { SoundManager.play('mapOpen'); setShowJourney(true); }}
             >
                 🗺️ My Journey Map
             </button>
