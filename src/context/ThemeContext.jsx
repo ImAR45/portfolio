@@ -5,9 +5,9 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
     const [theme, setTheme] = useState(() => {
         if (typeof window !== 'undefined') {
-            return localStorage.getItem('portfolio-theme') || 'glass';
+            return localStorage.getItem('portfolio-theme') || 'dark';
         }
-        return 'glass';
+        return 'dark';
     });
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export function ThemeProvider({ children }) {
     }, [theme]);
 
     const toggleTheme = () => {
-        setTheme((prev) => (prev === 'glass' ? 'retro' : 'glass'));
+        setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
     };
 
     return (

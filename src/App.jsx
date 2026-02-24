@@ -9,7 +9,7 @@ function App() {
 
     return (
         <ThemeProvider>
-            <ThemeToggle />
+            {isMobile && <ThemeToggle />}
             {isMobile ? <CinematicLayout /> : <RetroLayout />}
         </ThemeProvider>
     );

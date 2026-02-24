@@ -9,7 +9,7 @@ const ACHIEVEMENTS = [
     { id: 'quest_log', title: 'Quest Historian', desc: 'Read through the quest log', xp: 25, icon: '📜' },
     { id: 'treasure_hunter', title: 'Treasure Hunter', desc: 'Found the treasure room', xp: 25, icon: '🏆' },
     { id: 'social_butterfly', title: 'Social Butterfly', desc: 'Discovered the quest board', xp: 20, icon: '📋' },
-    { id: 'theme_changer', title: 'Reality Warper', desc: 'Changed the fabric of reality', xp: 15, icon: '🌀' },
+
     { id: 'skill_master', title: 'Skill Inspector', desc: 'Clicked on 3 different skills', xp: 15, icon: '⚡' },
     { id: 'treasure_opener', title: 'Loot Goblin', desc: 'Examined a project artifact', xp: 15, icon: '💎' },
     { id: 'scroll_found', title: 'Ancient Scroll', desc: 'Downloaded the resume scroll', xp: 20, icon: '📄' },
@@ -29,7 +29,7 @@ const ALL_ROOMS = ['about', 'skills', 'experience', 'projects', 'contact'];
 
 export function GameProvider({ children }) {
     const [xp, setXp] = useState(0);
-    const [maxXp] = useState(265); // Total XP from all achievements
+    const [maxXp] = useState(250); // Total XP from all achievements
     const [level, setLevel] = useState(1);
     const [unlockedAchievements, setUnlockedAchievements] = useState([]);
     const [achievementPopup, setAchievementPopup] = useState(null);

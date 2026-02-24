@@ -1,6 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { GameProvider, useGame } from '../../context/GameContext';
-import { useTheme } from '../../context/ThemeContext';
 import AchievementPopup from './AchievementPopup';
 import RetroHero from './RetroHero';
 import RetroAbout from './RetroAbout';
@@ -21,16 +20,7 @@ const rooms = [
 
 function RetroGame() {
     const [currentRoom, setCurrentRoom] = useState('hero');
-    const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms, unlockAchievement } = useGame();
-    const { theme } = useTheme();
-    const initialTheme = useRef(theme);
-
-    // Track theme changes for "Reality Warper" achievement
-    useEffect(() => {
-        if (theme !== initialTheme.current) {
-            unlockAchievement('theme_changer');
-        }
-    }, [theme, unlockAchievement]);
+    const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms } = useGame();
 
     const navigateToRoom = useCallback((roomId) => {
         if (!isRoomUnlocked(roomId)) return;
@@ -74,7 +64,7 @@ function RetroGame() {
                 </div>
 
                 <div className="retro-hud__right">
-                    <span className="retro-hud__trophies">🏆 {unlockedAchievements.length}/{12}</span>
+                    <span className="retro-hud__trophies">🏆 {unlockedAchievements.length}/{11}</span>
                 </div>
             </nav>
 

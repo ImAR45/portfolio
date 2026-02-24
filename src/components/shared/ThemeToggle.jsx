@@ -8,14 +8,14 @@ export default function ThemeToggle() {
         <button
             className="theme-toggle"
             onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'glass' ? 'retro' : 'glass'} theme`}
-            title={`Switch to ${theme === 'glass' ? 'Retro' : 'Glass'} theme`}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
         >
             <span className="theme-toggle__icon">
-                {theme === 'glass' ? '🎮' : '✨'}
+                {theme === 'dark' ? '☀️' : '🌙'}
             </span>
             <span className="theme-toggle__label">
-                {theme === 'glass' ? 'Retro' : 'Glass'}
+                {theme === 'dark' ? 'Light' : 'Dark'}
             </span>
         </button>
     );
