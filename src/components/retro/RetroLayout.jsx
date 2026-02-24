@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { GameProvider, useGame } from '../../context/GameContext';
 import AchievementPopup from './AchievementPopup';
+import TrophyRoadmap from './TrophyRoadmap';
 import RetroHero from './RetroHero';
 import RetroAbout from './RetroAbout';
 import RetroSkills from './RetroSkills';
@@ -20,6 +21,7 @@ const rooms = [
 
 function RetroGame() {
     const [currentRoom, setCurrentRoom] = useState('hero');
+    const [showRoadmap, setShowRoadmap] = useState(false);
     const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms } = useGame();
 
     const navigateToRoom = useCallback((roomId) => {
@@ -34,6 +36,7 @@ function RetroGame() {
     return (
         <div className="retro">
             <AchievementPopup />
+            {showRoadmap && <TrophyRoadmap onClose={() => setShowRoadmap(false)} />}
 
             {/* HUD Navigation */}
             <nav className="retro-hud">
@@ -64,7 +67,13 @@ function RetroGame() {
                 </div>
 
                 <div className="retro-hud__right">
-                    <span className="retro-hud__trophies">🏆 {unlockedAchievements.length}/{11}</span>
+                    <button
+                        className="retro-hud__trophies"
+                        onClick={() => setShowRoadmap(true)}
+                        title="View Trophy Roadmap"
+                    >
+                        🏆 {unlockedAchievements.length}/{11}
+                    </button>
                 </div>
             </nav>
 
@@ -75,7 +84,7 @@ function RetroGame() {
 
             {/* Footer */}
             <footer className="retro-footer">
-                <p>Designed & Built with ❤️ | © {new Date().getFullYear()} | Retro Mode</p>
+                <p>Designed & Built with ❤️ | © {new Date().getFullYear()}</p>
             </footer>
         </div>
     );

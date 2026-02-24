@@ -129,6 +129,17 @@
     font-size: 0.45rem;
     color: var(--accent-3);
     white-space: nowrap;
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.retro-hud__trophies:hover {
+    border-color: var(--accent-3);
+    box-shadow: 0 0 12px var(--accent-3-glow);
+    text-shadow: 0 0 8px var(--accent-3-glow);
 }
 
 .retro-hud__btn {
