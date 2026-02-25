@@ -1,9 +1,54 @@
-import { useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import portfolioData from '../../data/portfolio';
 
+const TITLES = [
+    "Senior Frontend Developer",
+    "React Specialist",
+    "UI/UX Enthusiast",
+    "Problem Solver",
+];
+
+function useTypingEffect(strings, typingSpeed = 80, deletingSpeed = 40, pauseDuration = 1800) {
+    const [displayText, setDisplayText] = useState('');
+    const [stringIndex, setStringIndex] = useState(0);
+    const [charIndex, setCharIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        const currentString = strings[stringIndex];
+
+        const timeout = setTimeout(() => {
+            if (!isDeleting) {
+                // Typing
+                setDisplayText(currentString.substring(0, charIndex + 1));
+                setCharIndex(prev => prev + 1);
+
+                if (charIndex + 1 === currentString.length) {
+                    // Pause before deleting
+                    setTimeout(() => setIsDeleting(true), pauseDuration);
+                }
+            } else {
+                // Deleting
+                setDisplayText(currentString.substring(0, charIndex - 1));
+                setCharIndex(prev => prev - 1);
+
+                if (charIndex - 1 === 0) {
+                    setIsDeleting(false);
+                    setStringIndex(prev => (prev + 1) % strings.length);
+                }
+            }
+        }, isDeleting ? deletingSpeed : typingSpeed);
+
+        return () => clearTimeout(timeout);
+    }, [charIndex, isDeleting, stringIndex, strings, typingSpeed, deletingSpeed, pauseDuration]);
+
+    return displayText;
+}
+
 export default function CinematicHero() {
-    const { name, title, resumeUrl } = portfolioData;
+    const { name, resumeUrl } = portfolioData;
+    const typedTitle = useTypingEffect(TITLES);
 
     const particles = useMemo(() => {
         return Array.from({ length: 30 }, (_, i) => ({
@@ -59,7 +104,8 @@ export default function CinematicHero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
             >
-                {title}
+                <span className="cinematic-hero__typed">{typedTitle}</span>
+                <span className="cinematic-hero__cursor">|</span>
             </motion.p>
 
             <motion.div
