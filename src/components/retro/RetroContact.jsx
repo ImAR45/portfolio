@@ -7,6 +7,7 @@ const socialIcons = {
     linkedin: '💼',
     twitter: '🐦',
     email: '✉️',
+    phone: '📞',
 };
 
 export default function RetroContact() {

@@ -3,16 +3,16 @@ import './RetroJourneyMap.css';
 
 /* ─── milestone data ─── */
 const MILESTONES = [
-    { id: 'ssc', label: '10th (SSC)', year: '2016', info: 'Completed schooling with flying colors. First spark of curiosity for technology!', pct: 0.06 },
-    { id: 'hsc', label: '12th (HSC)', year: '2018', info: 'Science stream warrior! Discovered the love for problem-solving.', pct: 0.16 },
-    { id: 'college', label: 'College', year: '2018', info: 'Started B.Tech in CS. Algorithms, data structures & late-night coding!', pct: 0.26 },
-    { id: 'first_code', label: 'First Code', year: '2019', info: 'Wrote my first "Hello World" in C. Felt like casting a spell! ✨', pct: 0.36 },
-    { id: 'first_site', label: 'First Website', year: '2020', info: 'Built my first HTML page. Ugly but MINE. Web dev journey began.', pct: 0.46 },
+    { id: 'ssc', label: '10th (SSC)', year: '2014-15', info: 'Completed schooling with flying colors. First spark of curiosity for technology!', pct: 0.06 },
+    { id: 'hsc', label: '12th (HSC)', year: '2016-17', info: 'Science stream warrior! Discovered the love for problem-solving.', pct: 0.16 },
+    { id: 'college', label: 'College', year: '2017', info: 'Started B.Tech in CS. Algorithms, data structures & late-night coding(HA HA HA)!', pct: 0.26 },
+    { id: 'first_code', label: 'First Code', year: '2018', info: 'Wrote my first "Hello World" in C. Felt like casting a spell! ✨', pct: 0.36 },
+    { id: 'first_site', label: 'First Website', year: '2019', info: 'Built my first HTML page. Ugly but MINE. Web dev journey began.', pct: 0.46 },
     { id: 'learning', label: 'Learning', year: '2020', info: 'Deep dive into React, Node.js & modern web. Countless tutorials.', pct: 0.55 },
-    { id: 'first_proj', label: 'First Project', year: '2021', info: 'TaskFlow Pro — first production project. Tutorials vs reality.', pct: 0.64 },
-    { id: 'first_job', label: 'First Job', year: '2021', info: 'Junior Frontend Dev at WebSphere Solutions. Grew through it!', pct: 0.73 },
-    { id: 'level_up', label: 'Level Up!', year: '2022', info: 'Frontend Dev at PixelCraft Studios. Real clients, real impact.', pct: 0.84 },
-    { id: 'current', label: 'Current', year: '2023–Now', info: 'Senior Frontend Dev at TechNova Inc. Leading & building at scale.', pct: 0.94 },
+    { id: 'first_proj', label: 'First Project', year: '2021', info: 'Sorento — first production project. Tutorials vs reality.', pct: 0.64 },
+    { id: 'first_job', label: 'First Job', year: '2021-2023', info: 'Junior Dev at Cognizant Technology Solutions. Grew through it!', pct: 0.73 },
+    { id: 'level_up', label: 'Level Up!', year: '2023-2024', info: 'Senior Frontend Dev at Cognizant. Real clients, real impact.', pct: 0.84 },
+    { id: 'current', label: 'Current', year: '2024–Now', info: 'Senior Software Engineer at LTM. Leading & building at scale.', pct: 0.94 },
 ];
 
 /* ─── pixel-art drawing helpers ─── */

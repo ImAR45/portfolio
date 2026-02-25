@@ -6,6 +6,7 @@ import { SoundManager } from '../../utils/SoundManager';
 const EMPTY = null;
 const HUMAN = 'X';
 const AI = 'O';
+const AI_NAME = "Aaryan";
 
 function getWinner(board) {
     const lines = [
@@ -318,7 +319,7 @@ export default function RetroTicTacToe({ onClose }) {
                                 👤 I'll Go First (X)
                             </button>
                             <button className="retro-btn retro-btn--secondary" onClick={() => handleChooseFirst(AI)}>
-                                🤖 Let AI Go First (O)
+                                🤖 Let {AI_NAME} Go First (O)
                             </button>
                         </div>
                     </div>
@@ -330,7 +331,7 @@ export default function RetroTicTacToe({ onClose }) {
                         <div className="ttt-scoreboard">
                             <span className="ttt-score ttt-score--human">👤 You (X)</span>
                             <span className="ttt-score ttt-score--vs">VS</span>
-                            <span className="ttt-score ttt-score--ai">🤖 AI (O)</span>
+                            <span className="ttt-score ttt-score--ai">🤖 {AI_NAME} (O)</span>
                         </div>
                         <div className="ttt-board">
                             {board.map((cell, i) => (

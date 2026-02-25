@@ -13,6 +13,12 @@ let bgmVolume = 0.5;   // 0-1 user control
 let sfxVolume = 0.7;   // 0-1 user control
 let bgmUserStopped = false; // true when user explicitly stopped BGM
 
+/* ─── Mobile detection — no retro sounds on mobile ─── */
+function isMobileDevice() {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth <= 768;
+}
+
 /* ─── helpers ─── */
 
 function getCtx() {
@@ -291,7 +297,7 @@ function schedulePattern() {
 }
 
 function startBGM() {
-    if (bgmRunning || isMuted || bgmUserStopped) return;
+    if (bgmRunning || isMuted || bgmUserStopped || isMobileDevice()) return;
     bgmRunning = true;
     bgmStarted = true;
 
@@ -316,7 +322,7 @@ function stopBGM() {
 let autoStartBound = false;
 
 function autoStartHandler() {
-    if (!bgmStarted && !isMuted) {
+    if (!bgmStarted && !isMuted && !isMobileDevice()) {
         startBGM();
     }
     document.removeEventListener('click', autoStartHandler);
@@ -340,7 +346,7 @@ if (typeof document !== 'undefined') {
 export const SoundManager = {
     /** Play a named sound effect */
     play(name) {
-        if (isMuted) return;
+        if (isMuted || isMobileDevice()) return;
         if (!bgmStarted && !bgmRunning && !bgmUserStopped) startBGM();
         const fn = SFX[name];
         if (fn) fn();
@@ -349,7 +355,7 @@ export const SoundManager = {
     /** Start background music */
     startMusic() {
         bgmUserStopped = false;
-        if (!isMuted) startBGM();
+        if (!isMuted && !isMobileDevice()) startBGM();
     },
 
     /** Stop background music */

@@ -88,7 +88,7 @@ function RetroGame() {
                         onClick={() => { SoundManager.play('click'); setShowRoadmap(true); }}
                         title="View Trophy Roadmap"
                     >
-                        🏆 {unlockedAchievements.length}/{11}
+                        🏆 {unlockedAchievements.length}/{12}
                     </button>
                 </div>
             </nav>

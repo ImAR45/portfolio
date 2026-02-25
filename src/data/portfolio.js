@@ -1,95 +1,81 @@
 const portfolioData = {
-    name: "John Doe",
+    name: "Aaryan Choubey",
     title: "Frontend Developer",
-    bio: "Passionate frontend developer with 5+ years of experience crafting beautiful, performant, and accessible web applications. I love turning complex problems into simple, elegant solutions. When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sketching UI concepts.",
-    resumeUrl: "/resume.pdf",
+    bio: "Results-driven Senior Frontend Developer with 4+ years of expertise in developing scalable web applications using React.js, Redux, SCSS, Tailwind CSS, Material UI, and GitHub Copilot. Proven success in modernizing legacy systems, enhancing UI/UX performance, and driving faster development cycles. Adept at integrating REST/SOAP APIs and collaborating in Agile teams to deliver high-impact solutions.",
+    resumeUrl: "./resume.pdf",
+    location: "India",
 
     skills: [
+        { name: "AI Dev Mastery", level: 95, category: "Tools", icon: "🧠", desc: "AI-powered coding grandmaster! 🤖 GitHub Copilot certified by Microsoft, Antigravity, Cursor — I wield AI coding tools like a pro. 10x developer mode: ACTIVATED. 🚀" },
         { name: "React", level: 95, category: "Frontend", icon: "⚛️", desc: "My primary weapon of choice! ⚔️ Building dynamic UIs with hooks, context, and component architecture. Can split atoms into reusable components. 💥" },
         { name: "JavaScript", level: 92, category: "Languages", icon: "🟨", desc: "The language that started it all! 🌟 From closures to async/await, I bend JavaScript to my will. ES6+ is my native tongue. 🗣️" },
-        { name: "TypeScript", level: 88, category: "Languages", icon: "🔷", desc: "JavaScript's evolution stone! 💎 Type safety keeps bugs at bay. Interfaces, generics, and strict mode are my shields. 🛡️" },
-        { name: "CSS/SASS", level: 90, category: "Frontend", icon: "🎨", desc: "Painting pixels with precision! 🖼️ Grid, Flexbox, animations — I make designs come alive. Every pixel is a brushstroke. ✨" },
-        { name: "Next.js", level: 85, category: "Frontend", icon: "▲", desc: "The ultimate React framework! 🚀 SSR, ISR, API routes — I build blazing-fast production apps with SEO superpowers. ⚡" },
-        { name: "Node.js", level: 80, category: "Backend", icon: "🟢", desc: "Server-side sorcery! 🔮 Express APIs, middleware chains, and real-time magic with Socket.io. Full-stack unlocked! 🗝️" },
-        { name: "Git", level: 88, category: "Tools", icon: "📦", desc: "Master of version control! 🌳 Branching strategies, rebasing, and merge conflict resolution. My code always has a save point. 💾" },
-        { name: "Figma", level: 75, category: "Design", icon: "🖌️", desc: "Design companion spell! 🎭 Translating mockups to pixel-perfect code. Auto-layout and components speak my language. 🎯" },
-        { name: "REST APIs", level: 90, category: "Backend", icon: "🔗", desc: "Data summoning mastery! 📡 GET, POST, PUT, DELETE — I craft and consume APIs with clean endpoints and proper status codes. 🏗️" },
-        { name: "MongoDB", level: 78, category: "Database", icon: "🍃", desc: "NoSQL treasure vault! 🏦 Schema design, aggregation pipelines, and Atlas cloud storage. Your data is safe in my dungeon. 🐉" },
-        { name: "Tailwind CSS", level: 92, category: "Frontend", icon: "💨", desc: "Utility-first speed demon! 🏎️ Rapid prototyping with utility classes. From concept to styled UI in record time. ⏱️" },
-        { name: "Redux", level: 85, category: "Frontend", icon: "🔄", desc: "State management fortress! 🏰 Actions, reducers, middleware — I tame complex app state with predictable flows. 🎮" },
+        { name: "TypeScript", level: 88, category: "Languages", icon: "🔷", desc: "JavaScript's evolution stone! 💎 Type safety keeps bugs at bay. Migrating legacy code to TypeScript for better maintainability. 🛡️" },
+        { name: "SCSS/CSS", level: 90, category: "Frontend", icon: "🎨", desc: "Painting pixels with precision! 🖼️ Grid, Flexbox, animations — I make designs come alive. Every pixel is a brushstroke. ✨" },
+        { name: "Next.js", level: 75, category: "Frontend", icon: "▲", desc: "The ultimate React framework! 🚀 Migrating legacy React apps to Next.js with TypeScript for enhanced performance and scalability. ⚡" },
+        { name: "Redux/RTK", level: 88, category: "Frontend", icon: "🔄", desc: "State management fortress! 🏰 Redux, RTK, middleware — I tame complex app state with predictable flows across entire booking lifecycles. 🎮" },
+        { name: "Tailwind CSS", level: 92, category: "Frontend", icon: "💨", desc: "Utility-first speed demon! 🏎️ Rapid prototyping with utility classes. From Figma to styled UI in record time. ⏱️" },
+        { name: "Git", level: 90, category: "Tools", icon: "📦", desc: "Master of version control! 🌳 Branching strategies, rebasing, and merge conflict resolution. My code always has a save point. 💾" },
+        { name: "REST APIs", level: 90, category: "Backend", icon: "🔗", desc: "Data summoning mastery! 📡 Integrating REST & SOAP APIs for user forms, Salesforce tracking, and backend case creation. 🏗️" },
+        { name: "SQL/PLSQL", level: 70, category: "Database", icon: "🗄️", desc: "Master of relational realms! 🗃️ Complex queries, joins, stored procedures, and database optimization with Oracle SQL Developer. ✅" },
+        { name: "Material UI", level: 85, category: "Frontend", icon: "🎯", desc: "Google's design system in my toolkit! 🧩 Pre-built components, theming, and responsive layouts — shipping polished UIs at blazing speed. 🔥" },
+        { name: "Jest", level: 75, category: "Tools", icon: "🧪", desc: "Testing champion! ✅ Unit tests, snapshot tests, and mocking — I make sure every component works flawlessly before shipping. 🚢" },
     ],
 
     experience: [
         {
-            company: "TechNova Inc.",
-            role: "Senior Frontend Developer",
-            period: "Jan 2023 – Present",
+            company: "LTIMindtree",
+            role: "Senior Software Engineer",
+            period: "Oct 2024 – Present",
+            location: "Pune, MH",
             description:
-                "Leading the frontend architecture for a SaaS platform serving 50K+ users. Built a component library from scratch, improved page load times by 40%, and mentored a team of 4 junior developers.",
-            tech: ["React", "TypeScript", "Next.js", "Redux"],
+                "Built reusable React components integrated with Sitecore CMS, reducing development effort and improving content scalability while ensuring cross-platform responsiveness. Integrated multiple APIs for user forms, enabling backend case creation and Salesforce query tracking. Developed booking flows with Redux store to maintain data across the lifecycle. Built responsive booking and login pages using React and SCSS.",
+            tech: ["React", "Redux", "Sitecore", "SCSS", "Next.js", "TypeScript", "GitHub Copilot"],
         },
         {
-            company: "PixelCraft Studios",
-            role: "Frontend Developer",
-            period: "Jun 2021 – Dec 2022",
+            company: "Cognizant",
+            role: "Senior Developer",
+            period: "Jul 2021 – Oct 2024",
+            location: "Pune, MH",
             description:
-                "Developed interactive web experiences for clients including e-commerce platforms, dashboards, and marketing sites. Implemented responsive designs and smooth animations.",
-            tech: ["React", "JavaScript", "SASS", "GSAP"],
-        },
-        {
-            company: "WebSphere Solutions",
-            role: "Junior Frontend Developer",
-            period: "Mar 2020 – May 2021",
-            description:
-                "Started my professional journey building landing pages and fixing UI bugs. Grew into developing full features independently and learned modern frontend workflows.",
-            tech: ["HTML", "CSS", "JavaScript", "jQuery"],
+                "Migrated multiple legacy Siebel UIs to React.js using Micro Frontend Architecture. Developed a responsive website with React.js and Tailwind CSS that allowed clients to modify customer details via a Python REST API, significantly reducing support tickets. Built a 360-degree dashboard consolidating order and customer data into a single-page application. Achieved a 90% reduction in support tickets by deploying a real-time operational solution.",
+            tech: ["React", "Tailwind CSS", "JavaScript", "Chart.js", "React Router", "REST API"],
         },
     ],
 
     projects: [
         {
-            title: "TaskFlow Pro",
+            title: "JCOM Platform",
             description:
-                "A Kanban-style project management app with real-time collaboration, drag-and-drop tasks, and team analytics dashboard.",
-            tech: ["React", "Node.js", "Socket.io", "MongoDB"],
-            link: "https://github.com/johndoe/taskflow",
+                "Developed complex Sitecore components using React.js, Redux, HTML, SCSS, and JavaScript. Converted Figma designs into reusable React components ensuring pixel-perfect UI. Migrating legacy React and JavaScript code to Next.js with TypeScript.",
+            tech: ["React", "Redux", "SCSS", "Next.js", "TypeScript", "Sitecore"],
+            link: "#",
             color: "#6c63ff",
         },
         {
-            title: "WeatherVerse",
+            title: "360 Dashboard",
             description:
-                "Beautiful weather app with 3D animated backgrounds that change based on current conditions. Uses geolocation and has a 5-day forecast.",
-            tech: ["React", "Three.js", "OpenWeather API"],
-            link: "https://github.com/johndoe/weatherverse",
+                "An interactive dashboard using React and Chart.js, enhancing data visualisation and consolidating multiple systems into a single view. Dynamic UI tables with sorting and filtering, robust authentication, and session management. Achieved 30% reduction in development time.",
+            tech: ["React 18", "React Router", "Tailwind CSS", "Chart.js"],
+            link: "#",
             color: "#00d4ff",
-        },
-        {
-            title: "DevBlog Engine",
-            description:
-                "A markdown-powered blog platform with syntax highlighting, SEO optimization, RSS feed, and a custom CMS for easy content management.",
-            tech: ["Next.js", "MDX", "Tailwind", "Vercel"],
-            link: "https://github.com/johndoe/devblog",
-            color: "#e94560",
-        },
-        {
-            title: "CryptoTracker",
-            description:
-                "Real-time cryptocurrency tracking dashboard with price alerts, portfolio management, and interactive charts showing historical data.",
-            tech: ["React", "Redux", "Chart.js", "CoinGecko API"],
-            link: "https://github.com/johndoe/cryptotracker",
-            color: "#16c60c",
         },
     ],
 
+    education: {
+        degree: "Bachelor of Technology in Computer Science (BTech in CS)",
+        institution: "Lakshmi Narain College of Technology Excellence",
+        location: "Bhopal (MP), India",
+        year: "2021",
+    },
+
+    certifications: [
+        { name: "GitHub Copilot", issuer: "Microsoft", year: "2025" },
+    ],
+
     socials: [
-        { platform: "GitHub", url: "https://github.com/johndoe", icon: "github" },
-        {
-            platform: "LinkedIn",
-            url: "https://linkedin.com/in/johndoe",
-            icon: "linkedin",
-        },
-        { platform: "Twitter", url: "https://twitter.com/johndoe", icon: "twitter" },
-        { platform: "Email", url: "mailto:john@example.com", icon: "email" },
+        { platform: "LinkedIn", url: "https://linkedin.com/in/aaryan-choubey-a5344018b", icon: "linkedin" },
+        { platform: "Email", url: "mailto:aaryanchoubey45@gmail.com", icon: "email" },
+        { platform: "Phone", url: "tel:REDACTED", icon: "phone" },
     ],
 };
 
