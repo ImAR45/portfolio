@@ -75,7 +75,6 @@ const portfolioData = {
     socials: [
         { platform: "LinkedIn", url: "https://linkedin.com/in/aaryan-choubey-a5344018b", icon: "linkedin" },
         { platform: "Email", url: "mailto:aaryanchoubey45@gmail.com", icon: "email" },
-        { platform: "Phone", url: "tel:REDACTED", icon: "phone" },
     ],
 };
 
