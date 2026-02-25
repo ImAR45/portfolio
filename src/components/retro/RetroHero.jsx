@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 import RetroJourneyMap from './RetroJourneyMap';
+import RetroTicTacToe from './RetroTicTacToe';
 import { SoundManager } from '../../utils/SoundManager';
 import portfolioData from '../../data/portfolio';
 
 export default function RetroHero({ onNavigate }) {
     const { unlockAchievement, visitRoom } = useGame();
     const [showJourney, setShowJourney] = useState(false);
+    const [showGame, setShowGame] = useState(false);
 
     const handleStartQuest = () => {
         SoundManager.play('startQuest');
-        SoundManager.startMusic();
         unlockAchievement('first_step');
         visitRoom('hero');
         setTimeout(() => onNavigate('about'), 400);
@@ -65,11 +66,18 @@ export default function RetroHero({ onNavigate }) {
             >
                 🗺️ My Journey Map
             </button>
+            <button
+                className="retro-btn retro-btn--challenge"
+                onClick={() => { SoundManager.play('click'); setShowGame(true); }}
+            >
+                🎮 Challenge Me — Win & Get a Free Portfolio!
+            </button>
             <p className="retro-hero__hint">
                 💡 Explore rooms to earn XP & unlock achievements!
             </p>
 
             {showJourney && <RetroJourneyMap onClose={() => setShowJourney(false)} />}
+            {showGame && <RetroTicTacToe onClose={() => setShowGame(false)} />}
         </div>
     );
 }

@@ -1448,3 +1448,436 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ================================
+   TIC-TAC-TOE CHALLENGE GAME
+   ================================ */
+
+/* Challenge button on hero page */
+.retro-btn--challenge {
+    margin-top: 8px;
+    border-color: var(--accent-4);
+    color: var(--accent-4);
+    background: rgba(0, 212, 255, 0.06);
+    animation: challenge-pulse 2s ease-in-out infinite;
+    font-size: 0.55rem;
+}
+
+.retro-btn--challenge:hover {
+    background: var(--accent-4);
+    color: var(--bg-primary);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.5), 0 0 50px rgba(0, 212, 255, 0.2);
+}
+
+@keyframes challenge-pulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
+    50%      { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.2); }
+}
+
+/* Overlay */
+.ttt-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(15, 14, 23, 0.92);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: ttt-fade-in 0.3s ease;
+}
+
+@keyframes ttt-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Modal */
+.ttt-modal {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(145deg, var(--bg-primary), var(--bg-secondary));
+    border: 3px solid var(--accent-4);
+    box-shadow:
+        0 0 30px rgba(0, 212, 255, 0.3),
+        inset 0 0 40px rgba(0, 0, 0, 0.4);
+    padding: 28px 24px;
+    animation: ttt-modal-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes ttt-modal-in {
+    from { opacity: 0; transform: scale(0.85) translateY(30px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ttt-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 2px 8px;
+    transition: all 0.2s;
+    z-index: 5;
+}
+
+.ttt-close:hover {
+    color: var(--accent-1);
+    border-color: var(--accent-1);
+}
+
+/* Header */
+.ttt-header { text-align: center; margin-bottom: 20px; }
+
+.ttt-title {
+    font-family: var(--font-retro);
+    font-size: clamp(0.5rem, 1.5vw, 0.75rem);
+    color: var(--accent-4);
+    text-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+    letter-spacing: 2px;
+}
+
+.ttt-turn-indicator {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    color: var(--accent-3);
+    margin-top: 8px;
+    animation: blink-prompt 1.2s step-end infinite;
+    letter-spacing: 1px;
+}
+
+/* ─── Intro ─── */
+.ttt-intro {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.ttt-ai-avatar {
+    font-size: 3.5rem;
+    animation: ttt-avatar-bob 2s ease-in-out infinite;
+}
+
+@keyframes ttt-avatar-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+.ttt-intro-msg {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    color: var(--text-secondary);
+    line-height: 2;
+    max-width: 400px;
+}
+
+.ttt-challenge-badge {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--accent-3);
+    background: rgba(255, 217, 61, 0.08);
+    border: 2px solid var(--accent-3);
+    padding: 12px 16px;
+    line-height: 1.8;
+    text-align: center;
+    animation: pulse-border 2.5s ease-in-out infinite;
+}
+
+.ttt-start-btn { margin-top: 8px; }
+
+/* ─── Coin Toss ─── */
+.ttt-toss {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 200px;
+    justify-content: center;
+}
+
+.ttt-coin {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.ttt-coin--flipping {
+    animation: ttt-coin-flip 1.5s ease-in-out;
+}
+
+@keyframes ttt-coin-flip {
+    0%   { transform: rotateY(0deg); }
+    100% { transform: rotateY(1800deg); }
+}
+
+.ttt-coin__front, .ttt-coin__back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    border: 3px solid var(--accent-3);
+    background: var(--bg-tertiary);
+    backface-visibility: hidden;
+}
+
+.ttt-coin__back { transform: rotateY(180deg); }
+
+.ttt-toss-text {
+    font-family: var(--font-retro);
+    font-size: 0.42rem;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+.ttt-toss-text--win  { color: var(--accent-2); text-shadow: 0 0 10px var(--accent-2-glow); }
+.ttt-toss-text--lose { color: var(--accent-1); text-shadow: 0 0 10px var(--accent-1-glow); }
+
+.ttt-toss-result { text-align: center; animation: fade-in 0.5s ease; }
+
+.ttt-ai-choice {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--accent-3);
+    margin-top: 8px;
+}
+
+/* ─── Choosing ─── */
+.ttt-choosing {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    animation: fade-in 0.5s ease;
+}
+
+.ttt-choose-label {
+    font-family: var(--font-retro);
+    font-size: 0.42rem;
+    color: var(--text-secondary);
+}
+
+.ttt-choose-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ─── Board ─── */
+.ttt-board-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    animation: fade-in 0.4s ease;
+}
+
+.ttt-scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-retro);
+    font-size: 0.38rem;
+}
+
+.ttt-score--human { color: var(--accent-1); }
+.ttt-score--vs    { color: var(--text-muted); font-size: 0.32rem; }
+.ttt-score--ai    { color: var(--accent-2); }
+
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 240px;
+    height: 240px;
+    background: var(--accent-4);
+    border: 3px solid var(--accent-4);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.ttt-board--small {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.ttt-cell {
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    border: none;
+    outline: none;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.ttt-cell--clickable {
+    cursor: pointer;
+}
+
+.ttt-cell--clickable:hover {
+    background: var(--bg-tertiary);
+    box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.15);
+}
+
+.ttt-cell--small { cursor: default; }
+
+.ttt-mark {
+    font-family: var(--font-retro);
+    font-size: 1.4rem;
+    font-weight: bold;
+    animation: ttt-mark-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ttt-cell--small .ttt-mark { font-size: 0.8rem; }
+
+.ttt-cell--x .ttt-mark {
+    color: var(--accent-1);
+    text-shadow: 0 0 10px var(--accent-1-glow);
+}
+
+.ttt-cell--o .ttt-mark {
+    color: var(--accent-2);
+    text-shadow: 0 0 10px var(--accent-2-glow);
+}
+
+.ttt-cell--win {
+    background: rgba(255, 217, 61, 0.15);
+    box-shadow: inset 0 0 20px var(--accent-3-glow);
+}
+
+.ttt-cell--win .ttt-mark {
+    color: var(--accent-3);
+    text-shadow: 0 0 15px var(--accent-3-glow);
+    animation: ttt-win-pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes ttt-mark-in {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes ttt-win-pulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.15); }
+}
+
+/* ─── Result ─── */
+.ttt-result {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    animation: fade-in 0.5s ease;
+}
+
+.ttt-result-badge {
+    font-family: var(--font-retro);
+    font-size: 0.65rem;
+    padding: 8px 20px;
+    border: 3px solid;
+    letter-spacing: 2px;
+}
+
+.ttt-result-badge--win  {
+    color: var(--accent-3);
+    border-color: var(--accent-3);
+    background: rgba(255, 217, 61, 0.1);
+    box-shadow: 0 0 25px var(--accent-3-glow);
+    animation: ttt-win-pulse 0.8s ease-in-out infinite alternate;
+}
+
+.ttt-result-badge--draw {
+    color: var(--accent-4);
+    border-color: var(--accent-4);
+    background: rgba(0, 212, 255, 0.08);
+}
+
+.ttt-result-badge--lose {
+    color: var(--accent-1);
+    border-color: var(--accent-1);
+    background: rgba(233, 69, 96, 0.1);
+}
+
+.ttt-result-msg {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--text-secondary);
+    line-height: 2;
+    max-width: 400px;
+}
+
+.ttt-result-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ─── Email Form ─── */
+.ttt-email-form {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 217, 61, 0.05);
+    border: 2px solid var(--accent-3);
+    padding: 16px;
+    margin: 4px 0;
+    animation: fade-in 0.4s ease;
+}
+
+.ttt-email-info {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--accent-3);
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.ttt-send-btn { width: 100%; }
+
+.ttt-email-hint {
+    font-family: var(--font-retro);
+    font-size: 0.28rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-top: 8px;
+}
+
+.ttt-claim-btn {
+    animation: challenge-pulse 2s ease-in-out infinite;
+    border-color: var(--accent-3) !important;
+    color: var(--accent-3) !important;
+}
+
+.ttt-claim-btn:hover {
+    background: var(--accent-3) !important;
+    color: var(--bg-primary) !important;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 500px) {
+    .ttt-modal { padding: 20px 16px; }
+    .ttt-board { width: 200px; height: 200px; }
+    .ttt-board--small { width: 120px; height: 120px; }
+    .ttt-mark { font-size: 1.1rem; }
+    .ttt-cell--small .ttt-mark { font-size: 0.65rem; }
+    .ttt-choose-btns { flex-direction: column; }
+}
