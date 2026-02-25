@@ -1470,8 +1470,15 @@
 }
 
 @keyframes challenge-pulse {
-    0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.3); }
-    50%      { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.2); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.2);
+    }
 }
 
 /* Overlay */
@@ -1489,8 +1496,13 @@
 }
 
 @keyframes ttt-fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* Modal */
@@ -1510,8 +1522,15 @@
 }
 
 @keyframes ttt-modal-in {
-    from { opacity: 0; transform: scale(0.85) translateY(30px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .ttt-close {
@@ -1534,7 +1553,10 @@
 }
 
 /* Header */
-.ttt-header { text-align: center; margin-bottom: 20px; }
+.ttt-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 .ttt-title {
     font-family: var(--font-retro);
@@ -1568,8 +1590,15 @@
 }
 
 @keyframes ttt-avatar-bob {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-8px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 .ttt-intro-msg {
@@ -1592,7 +1621,9 @@
     animation: pulse-border 2.5s ease-in-out infinite;
 }
 
-.ttt-start-btn { margin-top: 8px; }
+.ttt-start-btn {
+    margin-top: 8px;
+}
 
 /* ─── Coin Toss ─── */
 .ttt-toss {
@@ -1617,11 +1648,17 @@
 }
 
 @keyframes ttt-coin-flip {
-    0%   { transform: rotateY(0deg); }
-    100% { transform: rotateY(1800deg); }
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(1800deg);
+    }
 }
 
-.ttt-coin__front, .ttt-coin__back {
+.ttt-coin__front,
+.ttt-coin__back {
     position: absolute;
     inset: 0;
     display: flex;
@@ -1633,7 +1670,9 @@
     backface-visibility: hidden;
 }
 
-.ttt-coin__back { transform: rotateY(180deg); }
+.ttt-coin__back {
+    transform: rotateY(180deg);
+}
 
 .ttt-toss-text {
     font-family: var(--font-retro);
@@ -1642,10 +1681,20 @@
     letter-spacing: 1px;
 }
 
-.ttt-toss-text--win  { color: var(--accent-2); text-shadow: 0 0 10px var(--accent-2-glow); }
-.ttt-toss-text--lose { color: var(--accent-1); text-shadow: 0 0 10px var(--accent-1-glow); }
+.ttt-toss-text--win {
+    color: var(--accent-2);
+    text-shadow: 0 0 10px var(--accent-2-glow);
+}
 
-.ttt-toss-result { text-align: center; animation: fade-in 0.5s ease; }
+.ttt-toss-text--lose {
+    color: var(--accent-1);
+    text-shadow: 0 0 10px var(--accent-1-glow);
+}
+
+.ttt-toss-result {
+    text-align: center;
+    animation: fade-in 0.5s ease;
+}
 
 .ttt-ai-choice {
     font-family: var(--font-retro);
@@ -1694,9 +1743,18 @@
     font-size: 0.38rem;
 }
 
-.ttt-score--human { color: var(--accent-1); }
-.ttt-score--vs    { color: var(--text-muted); font-size: 0.32rem; }
-.ttt-score--ai    { color: var(--accent-2); }
+.ttt-score--human {
+    color: var(--accent-1);
+}
+
+.ttt-score--vs {
+    color: var(--text-muted);
+    font-size: 0.32rem;
+}
+
+.ttt-score--ai {
+    color: var(--accent-2);
+}
 
 .ttt-board {
     display: grid;
@@ -1736,7 +1794,9 @@
     box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.15);
 }
 
-.ttt-cell--small { cursor: default; }
+.ttt-cell--small {
+    cursor: default;
+}
 
 .ttt-mark {
     font-family: var(--font-retro);
@@ -1745,7 +1805,9 @@
     animation: ttt-mark-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.ttt-cell--small .ttt-mark { font-size: 0.8rem; }
+.ttt-cell--small .ttt-mark {
+    font-size: 0.8rem;
+}
 
 .ttt-cell--x .ttt-mark {
     color: var(--accent-1);
@@ -1769,13 +1831,25 @@
 }
 
 @keyframes ttt-mark-in {
-    from { transform: scale(0); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes ttt-win-pulse {
-    from { transform: scale(1); }
-    to   { transform: scale(1.15); }
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.15);
+    }
 }
 
 /* ─── Result ─── */
@@ -1796,7 +1870,7 @@
     letter-spacing: 2px;
 }
 
-.ttt-result-badge--win  {
+.ttt-result-badge--win {
     color: var(--accent-3);
     border-color: var(--accent-3);
     background: rgba(255, 217, 61, 0.1);
@@ -1851,7 +1925,9 @@
     margin-bottom: 12px;
 }
 
-.ttt-send-btn { width: 100%; }
+.ttt-send-btn {
+    width: 100%;
+}
 
 .ttt-email-hint {
     font-family: var(--font-retro);
@@ -1874,10 +1950,632 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 500px) {
-    .ttt-modal { padding: 20px 16px; }
-    .ttt-board { width: 200px; height: 200px; }
-    .ttt-board--small { width: 120px; height: 120px; }
-    .ttt-mark { font-size: 1.1rem; }
-    .ttt-cell--small .ttt-mark { font-size: 0.65rem; }
-    .ttt-choose-btns { flex-direction: column; }
+    .ttt-modal {
+        padding: 20px 16px;
+    }
+
+    .ttt-board {
+        width: 200px;
+        height: 200px;
+    }
+
+    .ttt-board--small {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ttt-mark {
+        font-size: 1.1rem;
+    }
+
+    .ttt-cell--small .ttt-mark {
+        font-size: 0.65rem;
+    }
+
+    .ttt-choose-btns {
+        flex-direction: column;
+    }
+}
+
+/* ================================
+   KONAMI CODE OVERLAY
+   ================================ */
+.konami-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: konami-in 0.3s ease;
+}
+
+.konami-overlay__flash {
+    position: absolute;
+    inset: 0;
+    background: white;
+    animation: konami-flash 0.6s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes konami-flash {
+    0% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes konami-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.konami-overlay__particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.konami-overlay__particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: konami-particle 2s ease-out forwards;
+}
+
+@keyframes konami-particle {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-200px) translateX(calc(cos(var(--angle)) * 150px)) scale(0);
+        opacity: 0;
+    }
+}
+
+.konami-overlay__content {
+    text-align: center;
+    z-index: 1;
+    animation: konami-content-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes konami-content-in {
+    from {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.konami-overlay__title {
+    font-family: var(--font-retro);
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    color: var(--accent-3);
+    text-shadow: 0 0 20px var(--accent-3-glow), 0 0 40px var(--accent-3-glow);
+    margin-bottom: 16px;
+    animation: retro-glow 1s ease-in-out infinite alternate;
+}
+
+.konami-overlay__code {
+    font-family: var(--font-retro);
+    font-size: clamp(0.6rem, 1.5vw, 1rem);
+    color: var(--accent-4);
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+}
+
+.konami-overlay__desc {
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.konami-overlay__xp {
+    font-family: var(--font-retro);
+    font-size: 0.7rem;
+    color: var(--accent-2);
+    text-shadow: 0 0 10px var(--accent-2-glow);
+    animation: pulse-scale 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-scale {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+/* ================================
+   BOSS BATTLE
+   ================================ */
+.boss-battle__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.3s ease;
+}
+
+.boss-battle {
+    width: 90%;
+    max-width: 500px;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+    border: 3px solid var(--accent-1);
+    box-shadow: 0 0 40px var(--accent-1-glow), inset 0 0 30px rgba(233, 69, 96, 0.05);
+    padding: 32px;
+    text-align: center;
+}
+
+.boss-battle--shake {
+    animation: boss-shake 0.4s ease;
+}
+
+@keyframes boss-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-8px) rotate(-1deg);
+    }
+
+    40% {
+        transform: translateX(8px) rotate(1deg);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+.boss-battle__alert {
+    font-family: var(--font-retro);
+    font-size: 0.6rem;
+    color: var(--accent-1);
+    letter-spacing: 3px;
+    animation: blink-prompt 0.8s step-end infinite;
+    margin-bottom: 12px;
+}
+
+.boss-battle__encounter-text {
+    font-family: var(--font-retro);
+    font-size: clamp(0.5rem, 1.5vw, 0.8rem);
+    color: var(--accent-3);
+    text-shadow: 0 0 10px var(--accent-3-glow);
+    margin-bottom: 16px;
+}
+
+.boss-battle__ascii {
+    font-family: monospace;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    color: var(--accent-1);
+    line-height: 1.3;
+    margin: 16px 0;
+    text-shadow: 0 0 8px var(--accent-1-glow);
+    white-space: pre;
+}
+
+.boss-battle__guardian-name {
+    font-family: var(--font-retro);
+    font-size: 0.55rem;
+    color: var(--accent-3);
+    margin-bottom: 20px;
+}
+
+.boss-battle__boss-info {
+    margin-bottom: 8px;
+}
+
+.boss-battle__boss-name {
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    color: var(--accent-1);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.boss-battle__hp-bar {
+    width: 100%;
+    height: 16px;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--accent-1);
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.boss-battle__hp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e94560, #ff6b6b);
+    transition: width 0.4s ease;
+    box-shadow: 0 0 10px var(--accent-1-glow);
+}
+
+.boss-battle__hp-text {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--accent-1);
+}
+
+.boss-battle__message {
+    font-family: var(--font-retro);
+    font-size: 0.45rem;
+    color: var(--text-secondary);
+    margin: 16px 0;
+    min-height: 2em;
+    line-height: 1.6;
+}
+
+.boss-battle__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.boss-battle__attack-btn {
+    animation: btn-glow-pulse 1.5s ease-in-out infinite;
+}
+
+.boss-battle__attack-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    animation: none;
+}
+
+.boss-battle__victory-title {
+    font-family: var(--font-retro);
+    font-size: clamp(0.7rem, 2vw, 1.2rem);
+    color: var(--accent-3);
+    text-shadow: 0 0 20px var(--accent-3-glow);
+    margin-bottom: 16px;
+    animation: retro-glow 1s ease-in-out infinite alternate;
+}
+
+.boss-battle__loot-text {
+    font-family: var(--font-retro);
+    font-size: 0.45rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.boss-battle__loot-item {
+    font-family: var(--font-retro);
+    font-size: 0.5rem;
+    color: var(--accent-2);
+    text-shadow: 0 0 8px var(--accent-2-glow);
+    margin-bottom: 12px;
+}
+
+.boss-battle__xp-gain {
+    font-family: var(--font-retro);
+    font-size: 0.6rem;
+    color: var(--accent-3);
+    animation: pulse-scale 0.8s ease-in-out infinite alternate;
+}
+
+.boss-battle__download-note {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+}
+
+/* Boss button on hero */
+.retro-btn--boss {
+    border-color: var(--accent-1);
+    color: var(--accent-1);
+    background: rgba(233, 69, 96, 0.08);
+    animation: boss-btn-pulse 3s ease-in-out infinite;
+}
+
+.retro-btn--boss:hover {
+    background: var(--accent-1);
+    color: var(--bg-primary);
+    box-shadow: 0 0 30px var(--accent-1-glow);
+}
+
+@keyframes boss-btn-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px var(--accent-1-glow);
+    }
+
+    50% {
+        box-shadow: 0 0 20px var(--accent-1-glow), 0 0 40px var(--accent-1-glow);
+    }
+}
+
+/* ================================
+   RANDOM ENCOUNTER
+   ================================ */
+.encounter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 160;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.3s ease;
+}
+
+.encounter-box {
+    width: 90%;
+    max-width: 420px;
+    padding: 28px;
+    text-align: center;
+    animation: room-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.encounter-title {
+    font-family: var(--font-retro);
+    font-size: clamp(0.55rem, 1.5vw, 0.8rem);
+    color: var(--accent-1);
+    text-shadow: 0 0 10px var(--accent-1-glow);
+    margin-bottom: 16px;
+    animation: blink-prompt 1s step-end infinite;
+}
+
+.encounter-arena {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--glass-border);
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.encounter-bug {
+    position: absolute;
+    font-size: 2.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transform: translate(-50%, -50%);
+    transition: left 0.3s ease, top 0.3s ease;
+    animation: bug-wiggle 0.3s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.encounter-bug:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+@keyframes bug-wiggle {
+    0% {
+        transform: translate(-50%, -50%) rotate(-5deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(5deg);
+    }
+}
+
+.encounter-hint {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    color: var(--accent-3);
+    margin-bottom: 12px;
+}
+
+.encounter-timer {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+}
+
+.encounter-timer__bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
+    animation: encounter-countdown 5s linear forwards;
+}
+
+@keyframes encounter-countdown {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
+
+.encounter-result {
+    padding: 20px;
+    text-align: center;
+    animation: room-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.encounter-result__emoji {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.encounter-result__title {
+    font-family: var(--font-retro);
+    font-size: 0.65rem;
+    margin-bottom: 8px;
+}
+
+.encounter-result--success .encounter-result__title {
+    color: var(--accent-2);
+    text-shadow: 0 0 10px var(--accent-2-glow);
+}
+
+.encounter-result--fail .encounter-result__title {
+    color: var(--text-muted);
+}
+
+.encounter-result__xp {
+    font-family: var(--font-retro);
+    font-size: 0.55rem;
+    color: var(--accent-3);
+    animation: pulse-scale 0.8s ease-in-out infinite alternate;
+}
+
+.encounter-result__subtitle {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* ================================
+   NPC DIALOGUE (About Me)
+   ================================ */
+.retro-dialog__portrait-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+.retro-dialog__portrait {
+    font-size: 3rem;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--accent-3);
+    box-shadow: 0 0 12px var(--accent-3-glow);
+    flex-shrink: 0;
+}
+
+.retro-dialog__name-plate {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.retro-dialog__npc-name {
+    font-family: var(--font-retro);
+    font-size: 0.65rem;
+    color: var(--accent-3);
+    text-shadow: 0 0 8px var(--accent-3-glow);
+}
+
+.retro-dialog__npc-title {
+    font-family: var(--font-retro);
+    font-size: 0.35rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.retro-dialog__textbox {
+    cursor: pointer;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    min-height: 100px;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.retro-dialog__textbox:hover {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.retro-dialog__advance-hint {
+    font-family: var(--font-retro);
+    font-size: 0.4rem;
+    color: var(--accent-2);
+    text-align: right;
+    margin-top: 12px;
+    animation: blink-prompt 1.2s step-end infinite;
+}
+
+.retro-dialog__progress {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.retro-dialog__progress-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+.retro-dialog__progress-dot--active {
+    background: var(--accent-2);
+    border-color: var(--accent-2);
+    box-shadow: 0 0 6px var(--accent-2-glow);
+}
+
+.retro-dialog__choices {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.retro-dialog__choices-prompt {
+    font-family: var(--font-retro);
+    font-size: 0.45rem;
+    color: var(--accent-3);
+    margin-bottom: 8px;
+}
+
+.retro-dialog__choice-btn {
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+    border-color: var(--accent-2);
+    color: var(--accent-2);
+    font-size: 0.5rem;
+    padding: 10px 20px;
+}
+
+.retro-dialog__choice-btn:hover {
+    background: var(--accent-2);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px var(--accent-2-glow);
+}
+
+/* Konami hint on hero */
+.retro-hero__hint--konami {
+    color: var(--text-muted);
+    opacity: 0.4;
+    font-size: 0.35rem;
+    animation: blink-prompt 3s step-end infinite;
 }

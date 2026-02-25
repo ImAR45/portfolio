@@ -17,6 +17,12 @@ const ACHIEVEMENTS = [
     { id: 'full_clear', title: '100% Explorer', desc: 'Visited every room!', xp: 50, icon: '🌟' },
     { id: 'secret_finder', title: 'Easter Egg Hunter', desc: 'Found a hidden secret', xp: 30, icon: '🥚' },
     { id: 'game_challenger', title: 'Game Challenger', desc: 'Challenged the AI to a battle of wits', xp: 15, icon: '🎮' },
+
+    // New gamification achievements
+    { id: 'konami_master', title: 'Konami Master', desc: '\u2191\u2191\u2193\u2193\u2190\u2192\u2190\u2192BA — You know the code!', xp: 40, icon: '🕹️' },
+    { id: 'speed_runner', title: 'Speed Runner', desc: 'Visited 3 rooms in under 10 seconds!', xp: 35, icon: '💨' },
+    { id: 'boss_slayer', title: 'Boss Slayer', desc: 'Defeated the Resume Guardian!', xp: 30, icon: '🐉' },
+    { id: 'bug_squasher', title: 'Bug Squasher', desc: 'Squashed a wild bug!', xp: 20, icon: '🐛' },
 ];
 
 const ROOM_ACHIEVEMENT_MAP = {
@@ -31,7 +37,7 @@ const ALL_ROOMS = ['about', 'skills', 'experience', 'projects', 'contact'];
 
 export function GameProvider({ children }) {
     const [xp, setXp] = useState(0);
-    const [maxXp] = useState(250); // Total XP from all achievements
+    const [maxXp] = useState(390); // Total XP from all 16 achievements
     const [level, setLevel] = useState(1);
     const [unlockedAchievements, setUnlockedAchievements] = useState([]);
     const [achievementPopup, setAchievementPopup] = useState(null);
@@ -40,6 +46,9 @@ export function GameProvider({ children }) {
     const [clickedSkills, setClickedSkills] = useState([]);
     const [hasExaminedProject, setHasExaminedProject] = useState(false);
     const popupTimeoutRef = useRef(null);
+
+    // Combo / speed-runner tracking
+    const comboTimestamps = useRef([]);
 
     const showAchievement = useCallback((achievement) => {
         if (popupTimeoutRef.current) {
@@ -95,6 +104,20 @@ export function GameProvider({ children }) {
         });
     }, [unlockAchievement]);
 
+    // Track room visit timestamps for speed-runner combo
+    const trackCombo = useCallback((roomId) => {
+        const now = Date.now();
+        comboTimestamps.current.push({ roomId, time: now });
+        // Keep only last 10 seconds of entries
+        comboTimestamps.current = comboTimestamps.current.filter(e => now - e.time < 10000);
+        // Count unique rooms visited in the window
+        const uniqueRooms = new Set(comboTimestamps.current.map(e => e.roomId));
+        if (uniqueRooms.size >= 3) {
+            setTimeout(() => unlockAchievement('speed_runner'), 300);
+            comboTimestamps.current = []; // reset
+        }
+    }, [unlockAchievement]);
+
     const clickSkill = useCallback((skillName) => {
         setClickedSkills((prev) => {
             if (prev.includes(skillName)) return prev;
@@ -122,8 +145,6 @@ export function GameProvider({ children }) {
     }, [unlockAchievement]);
 
     const isRoomUnlocked = useCallback((roomId) => {
-        // Hero is always unlocked, about unlocks after clicking "Start Quest"
-        // Other rooms unlock progressively
         if (roomId === 'hero') return true;
         if (roomId === 'about') return visitedRooms.includes('hero') || unlockedAchievements.includes('first_step');
         if (roomId === 'skills') return visitedRooms.includes('about');
@@ -150,6 +171,7 @@ export function GameProvider({ children }) {
                 examineProject,
                 discoverSecret,
                 isRoomUnlocked,
+                trackCombo,
                 allAchievements: ACHIEVEMENTS,
             }}
         >

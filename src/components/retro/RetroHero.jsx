@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 import RetroJourneyMap from './RetroJourneyMap';
 import RetroTicTacToe from './RetroTicTacToe';
+import BossBattle from './BossBattle';
 import { SoundManager } from '../../utils/SoundManager';
 import portfolioData from '../../data/portfolio';
 
@@ -9,6 +10,7 @@ export default function RetroHero({ onNavigate }) {
     const { unlockAchievement, visitRoom } = useGame();
     const [showJourney, setShowJourney] = useState(false);
     const [showGame, setShowGame] = useState(false);
+    const [showBoss, setShowBoss] = useState(false);
 
     const handleStartQuest = () => {
         SoundManager.play('startQuest');
@@ -17,8 +19,9 @@ export default function RetroHero({ onNavigate }) {
         setTimeout(() => onNavigate('about'), 400);
     };
 
-    const handleDownloadScroll = () => {
-        unlockAchievement('scroll_found');
+    const handleBossBattle = () => {
+        SoundManager.play('click');
+        setShowBoss(true);
     };
 
     return (
@@ -50,15 +53,12 @@ export default function RetroHero({ onNavigate }) {
                 <button className="retro-btn retro-btn--glow" onClick={handleStartQuest}>
                     ⚔ Start Quest
                 </button>
-                <a
-                    href={portfolioData.resumeUrl}
-                    download
-                    className="retro-btn retro-btn--secondary"
-                    style={{ textDecoration: 'none' }}
-                    onClick={handleDownloadScroll}
+                <button
+                    className="retro-btn retro-btn--boss"
+                    onClick={handleBossBattle}
                 >
-                    📜 Download Scroll
-                </a>
+                    🐉 Boss Fight for Resume
+                </button>
             </div>
             <button
                 className="retro-btn retro-btn--journey"
@@ -75,9 +75,13 @@ export default function RetroHero({ onNavigate }) {
             <p className="retro-hero__hint">
                 💡 Explore rooms to earn XP & unlock achievements!
             </p>
+            <p className="retro-hero__hint retro-hero__hint--konami">
+                🕹️ Psst... try a legendary cheat code...
+            </p>
 
             {showJourney && <RetroJourneyMap onClose={() => setShowJourney(false)} />}
             {showGame && <RetroTicTacToe onClose={() => setShowGame(false)} />}
+            {showBoss && <BossBattle onClose={() => setShowBoss(false)} />}
         </div>
     );
 }

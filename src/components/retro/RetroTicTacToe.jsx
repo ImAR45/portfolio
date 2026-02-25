@@ -76,18 +76,18 @@ function getBestMove(board) {
 const INTRO_MESSAGES = [
     "Think you can outsmart me? I've never lost a game. Beat me, and I'll build your dream portfolio! 🎯",
     "No one has ever defeated me. Prove you're worthy and I'll create a portfolio just for you! ⚔️",
-    "I challenge you, brave soul! Win against my perfect AI, and your portfolio wish is my command! 🏆",
+    "I challenge you, brave soul! Win against me, and your portfolio wish is my command! 🏆",
 ];
 
 const TAUNT_MESSAGES = [
     "Another one bites the dust! 💀 My circuits remain undefeated.",
     "Nice try, but I've been trained on millions of games! Better luck next time. 😏",
-    "Game Over! Did you really think you could beat a perfect AI? 🤖",
+    "Game Over! Did you really think you could beat Aaryan? 🤖",
     "Defeated! Don't worry — 99.99% of humans can't beat me either. 🎮",
 ];
 
 const DRAW_MESSAGES = [
-    "Impressive! A draw against my perfect AI is the best any human can do! 🤝",
+    "Impressive! A draw against Aaryan is the best you can do! 🤝",
     "You survived! Not many can force a draw against me. Respect. ✊",
     "Stalemate! You're clearly skilled — but can you do the impossible and WIN? 🧠",
 ];
@@ -271,7 +271,7 @@ export default function RetroTicTacToe({ onClose }) {
                         <div className="ttt-turn-indicator">
                             {currentTurn === HUMAN
                                 ? "🎯 Your Turn — Place your X!"
-                                : "🤖 AI is thinking..."}
+                                : "🤖 Aaryan is thinking..."}
                         </div>
                     )}
                 </div>
@@ -301,7 +301,7 @@ export default function RetroTicTacToe({ onClose }) {
                         {!tossAnimating && tossResult === 'ai' && (
                             <div className="ttt-toss-result">
                                 <p className="ttt-toss-text ttt-toss-text--lose">
-                                    🤖 AI wins the toss!
+                                    🤖 {AI_NAME} wins the toss!
                                 </p>
                                 <p className="ttt-ai-choice">{randomFrom(AI_FIRST_TAUNTS)}</p>
                             </div>

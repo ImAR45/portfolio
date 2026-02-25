@@ -1,9 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { GameProvider, useGame } from '../../context/GameContext';
 import { SoundManager } from '../../utils/SoundManager';
 import AchievementPopup from './AchievementPopup';
 import TrophyRoadmap from './TrophyRoadmap';
 import SoundControlPanel from './SoundControlPanel';
+import KonamiOverlay from './KonamiOverlay';
+import RandomEncounter from './RandomEncounter';
 import RetroHero from './RetroHero';
 import RetroAbout from './RetroAbout';
 import RetroSkills from './RetroSkills';
@@ -25,14 +27,38 @@ function RetroGame() {
     const [currentRoom, setCurrentRoom] = useState('hero');
     const [showRoadmap, setShowRoadmap] = useState(false);
     const [showSoundPanel, setShowSoundPanel] = useState(false);
-    const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms } = useGame();
+    const [encounter, setEncounter] = useState(null);
+    const lastEncounterTime = useRef(0);
+    const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms, trackCombo } = useGame();
 
     const navigateToRoom = useCallback((roomId) => {
         if (!isRoomUnlocked(roomId)) return;
         SoundManager.play('navigate');
+
+        // Track combo for speed-runner achievement
+        trackCombo(roomId);
+
+        // Random encounter — 10% chance, at least 30s between encounters
+        const now = Date.now();
+        if (roomId !== 'hero' && now - lastEncounterTime.current > 30000 && Math.random() < 0.1) {
+            lastEncounterTime.current = now;
+            setEncounter(roomId);
+            // Delay room transition until encounter is resolved
+            return;
+        }
+
         setCurrentRoom(roomId);
         visitRoom(roomId);
-    }, [isRoomUnlocked, visitRoom]);
+    }, [isRoomUnlocked, visitRoom, trackCombo]);
+
+    const handleEncounterDismiss = useCallback(() => {
+        const targetRoom = encounter;
+        setEncounter(null);
+        if (targetRoom) {
+            setCurrentRoom(targetRoom);
+            visitRoom(targetRoom);
+        }
+    }, [encounter, visitRoom]);
 
     const ActiveRoom = rooms.find((r) => r.id === currentRoom)?.component || RetroHero;
     const xpPercent = Math.min((xp / maxXp) * 100, 100);
@@ -40,7 +66,9 @@ function RetroGame() {
     return (
         <div className="retro">
             <AchievementPopup />
+            <KonamiOverlay />
             {showRoadmap && <TrophyRoadmap onClose={() => setShowRoadmap(false)} />}
+            {encounter && <RandomEncounter onDismiss={handleEncounterDismiss} />}
 
             {/* HUD Navigation */}
             <nav className="retro-hud">
@@ -88,7 +116,7 @@ function RetroGame() {
                         onClick={() => { SoundManager.play('click'); setShowRoadmap(true); }}
                         title="View Trophy Roadmap"
                     >
-                        🏆 {unlockedAchievements.length}/{12}
+                        🏆 {unlockedAchievements.length}/{16}
                     </button>
                 </div>
             </nav>
