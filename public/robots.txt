@@ -1,0 +1,7 @@
+# robots.txt — Aaryan Choubey Portfolio
+User-agent: *
+Allow: /
+Disallow: /assets/
+
+# Sitemap
+Sitemap: https://aaryan-choubey.is-a.dev/sitemap.xml
