@@ -3,6 +3,7 @@ import { GameProvider, useGame } from '../../context/GameContext';
 import { SoundManager } from '../../utils/SoundManager';
 import AchievementPopup from './AchievementPopup';
 import TrophyRoadmap from './TrophyRoadmap';
+import SoundControlPanel from './SoundControlPanel';
 import RetroHero from './RetroHero';
 import RetroAbout from './RetroAbout';
 import RetroSkills from './RetroSkills';
@@ -23,9 +24,8 @@ const rooms = [
 function RetroGame() {
     const [currentRoom, setCurrentRoom] = useState('hero');
     const [showRoadmap, setShowRoadmap] = useState(false);
+    const [showSoundPanel, setShowSoundPanel] = useState(false);
     const { xp, maxXp, level, visitRoom, isRoomUnlocked, unlockedAchievements, visitedRooms } = useGame();
-
-    const [soundMuted, setSoundMuted] = useState(false);
 
     const navigateToRoom = useCallback((roomId) => {
         if (!isRoomUnlocked(roomId)) return;
@@ -33,11 +33,6 @@ function RetroGame() {
         setCurrentRoom(roomId);
         visitRoom(roomId);
     }, [isRoomUnlocked, visitRoom]);
-
-    const toggleMute = () => {
-        const muted = SoundManager.toggleMute();
-        setSoundMuted(muted);
-    };
 
     const ActiveRoom = rooms.find((r) => r.id === currentRoom)?.component || RetroHero;
     const xpPercent = Math.min((xp / maxXp) * 100, 100);
@@ -76,13 +71,18 @@ function RetroGame() {
                 </div>
 
                 <div className="retro-hud__right">
-                    <button
-                        className="retro-hud__sound-toggle"
-                        onClick={toggleMute}
-                        title={soundMuted ? 'Unmute' : 'Mute'}
-                    >
-                        {soundMuted ? '🔇' : '🔊'}
-                    </button>
+                    <div className="retro-hud__sound-wrap">
+                        <button
+                            className={`retro-hud__sound-toggle ${showSoundPanel ? 'retro-hud__sound-toggle--active' : ''}`}
+                            onClick={() => setShowSoundPanel(!showSoundPanel)}
+                            title="Sound Settings"
+                        >
+                            🔊
+                        </button>
+                        {showSoundPanel && (
+                            <SoundControlPanel onClose={() => setShowSoundPanel(false)} />
+                        )}
+                    </div>
                     <button
                         className="retro-hud__trophies"
                         onClick={() => { SoundManager.play('click'); setShowRoadmap(true); }}

@@ -6,8 +6,11 @@
 let audioCtx = null;
 let isMuted = false;
 let bgmGain = null;
+let sfxGain = null;
 let bgmOscillators = [];
 let bgmRunning = false;
+let bgmVolume = 0.5;   // 0-1 user control
+let sfxVolume = 0.7;   // 0-1 user control
 
 /* ─── helpers ─── */
 
@@ -16,6 +19,12 @@ function getCtx() {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
     if (audioCtx.state === 'suspended') audioCtx.resume();
+    // Create SFX gain if missing
+    if (!sfxGain) {
+        sfxGain = audioCtx.createGain();
+        sfxGain.gain.setValueAtTime(sfxVolume, audioCtx.currentTime);
+        sfxGain.connect(audioCtx.destination);
+    }
     return audioCtx;
 }
 
@@ -29,7 +38,7 @@ function playNote(freq, duration, type = 'square', volume = 0.08, delay = 0) {
     gain.gain.setValueAtTime(volume, ctx.currentTime + delay);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
     osc.connect(gain);
-    gain.connect(ctx.destination);
+    gain.connect(sfxGain); // route through SFX volume control
     osc.start(ctx.currentTime + delay);
     osc.stop(ctx.currentTime + delay + duration + 0.05);
 }
@@ -191,10 +200,10 @@ const PATTERNS = [
     },
 ];
 
-const BGM_NOTE_DUR = 0.2;   // seconds per note step
-const BGM_VOLUME = 0.03;
-const BGM_BASS_VOL = 0.02;
-const BGM_ARP_VOL = 0.012;
+const BGM_NOTE_DUR = 0.2;
+const BGM_BASE_VOL = 0.06;   // base melody volume (scaled by bgmVolume)
+const BGM_BASS_RATIO = 0.65; // bass relative to melody
+const BGM_ARP_RATIO = 0.35;  // arpeggio relative to melody
 
 let bgmPatternIdx = 0;
 let bgmTimerId = null;
@@ -218,7 +227,8 @@ function schedulePattern() {
         const g = ctx.createGain();
         osc.type = 'square';
         osc.frequency.setValueAtTime(freq, now + i * BGM_NOTE_DUR);
-        g.gain.setValueAtTime(BGM_VOLUME, now + i * BGM_NOTE_DUR);
+        const melVol = BGM_BASE_VOL * bgmVolume;
+        g.gain.setValueAtTime(melVol, now + i * BGM_NOTE_DUR);
         g.gain.exponentialRampToValueAtTime(0.001, now + i * BGM_NOTE_DUR + BGM_NOTE_DUR * 0.85);
         osc.connect(g);
         g.connect(bgmGain);
@@ -234,7 +244,8 @@ function schedulePattern() {
         const g = ctx.createGain();
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, now + i * BGM_NOTE_DUR);
-        g.gain.setValueAtTime(BGM_BASS_VOL, now + i * BGM_NOTE_DUR);
+        const bassVol = BGM_BASE_VOL * bgmVolume * BGM_BASS_RATIO;
+        g.gain.setValueAtTime(bassVol, now + i * BGM_NOTE_DUR);
         g.gain.exponentialRampToValueAtTime(0.001, now + i * BGM_NOTE_DUR + BGM_NOTE_DUR * 0.85);
         osc.connect(g);
         g.connect(bgmGain);
@@ -251,7 +262,8 @@ function schedulePattern() {
         const g = ctx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(arpFreq, now + i * BGM_NOTE_DUR);
-        g.gain.setValueAtTime(BGM_ARP_VOL, now + i * BGM_NOTE_DUR);
+        const arpVol = BGM_BASE_VOL * bgmVolume * BGM_ARP_RATIO;
+        g.gain.setValueAtTime(arpVol, now + i * BGM_NOTE_DUR);
         g.gain.exponentialRampToValueAtTime(0.001, now + i * BGM_NOTE_DUR + BGM_NOTE_DUR * 0.5);
         osc.connect(g);
         g.connect(bgmGain);
@@ -274,7 +286,7 @@ function startBGM() {
 
     const ctx = getCtx();
     bgmGain = ctx.createGain();
-    bgmGain.gain.setValueAtTime(BGM_VOLUME, ctx.currentTime);
+    bgmGain.gain.setValueAtTime(1, ctx.currentTime); // gain node at 1, volume handled per-note
     bgmGain.connect(ctx.destination);
 
     schedulePattern();
@@ -296,7 +308,6 @@ function autoStartHandler() {
     if (!bgmStarted && !isMuted) {
         startBGM();
     }
-    // Remove listeners after first trigger
     document.removeEventListener('click', autoStartHandler);
     document.removeEventListener('keydown', autoStartHandler);
     autoStartBound = false;
@@ -309,7 +320,6 @@ function bindAutoStart() {
     document.addEventListener('keydown', autoStartHandler, { once: true });
 }
 
-// Bind immediately on module load
 if (typeof document !== 'undefined') {
     bindAutoStart();
 }
@@ -320,7 +330,6 @@ export const SoundManager = {
     /** Play a named sound effect */
     play(name) {
         if (isMuted) return;
-        // Also ensure BGM is running on first interaction
         if (!bgmStarted && !bgmRunning) startBGM();
         const fn = SFX[name];
         if (fn) fn();
@@ -334,9 +343,15 @@ export const SoundManager = {
     /** Stop background music */
     stopMusic() {
         stopBGM();
+        bgmStarted = false; // allow re-start
     },
 
-    /** Toggle mute on/off */
+    /** Is BGM currently playing? */
+    isBgmPlaying() {
+        return bgmRunning;
+    },
+
+    /** Toggle mute on/off (everything) */
     toggleMute() {
         isMuted = !isMuted;
         if (isMuted) {
@@ -351,4 +366,28 @@ export const SoundManager = {
     isMuted() {
         return isMuted;
     },
+
+    /** Set BGM volume (0–1) */
+    setBgmVolume(val) {
+        bgmVolume = Math.max(0, Math.min(1, val));
+    },
+
+    /** Get BGM volume (0–1) */
+    getBgmVolume() {
+        return bgmVolume;
+    },
+
+    /** Set SFX volume (0–1) */
+    setSfxVolume(val) {
+        sfxVolume = Math.max(0, Math.min(1, val));
+        if (sfxGain && audioCtx) {
+            sfxGain.gain.setValueAtTime(sfxVolume, audioCtx.currentTime);
+        }
+    },
+
+    /** Get SFX volume (0–1) */
+    getSfxVolume() {
+        return sfxVolume;
+    },
 };
+
