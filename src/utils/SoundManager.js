@@ -11,6 +11,7 @@ let bgmOscillators = [];
 let bgmRunning = false;
 let bgmVolume = 0.5;   // 0-1 user control
 let sfxVolume = 0.7;   // 0-1 user control
+let bgmUserStopped = false; // true when user explicitly stopped BGM
 
 /* ─── helpers ─── */
 
@@ -173,34 +174,44 @@ const SFX = {
     },
 };
 
-/* ─── BACKGROUND MUSIC (rich chiptune loop) ─── */
+/* ─── BACKGROUND MUSIC — Bubble Bobble inspired theme ─── */
 
-// 4 musical phrases that cycle: A → B → C → D → repeat
-// Each array is [frequency]. 0 = rest.
+// Bouncy, cheerful chiptune inspired by the Bubble Bobble main theme.
+// Fast tempo, major key, iconic ascending/descending runs.
 const PATTERNS = [
-    // Pattern A — adventurous opening
+    // A — main hook (bouncy ascending)
     {
-        melody: [330, 330, 392, 440, 523, 0, 440, 392, 330, 294, 262, 294, 330, 330, 294, 0],
-        bass: [165, 165, 196, 196, 262, 262, 220, 220, 165, 165, 131, 131, 165, 165, 147, 147]
+        melody: [659, 659, 587, 523, 587, 659, 784, 0, 659, 587, 523, 440, 523, 587, 659, 0],
+        bass: [262, 262, 262, 262, 294, 294, 392, 392, 262, 262, 220, 220, 262, 262, 330, 330]
     },
-    // Pattern B — hopeful climb
+    // B — playful response
     {
-        melody: [262, 330, 392, 523, 494, 440, 392, 0, 330, 392, 440, 523, 659, 523, 440, 0],
-        bass: [131, 131, 196, 196, 247, 247, 196, 196, 165, 165, 220, 220, 262, 262, 220, 220]
+        melody: [784, 784, 698, 659, 698, 784, 880, 0, 784, 698, 659, 587, 659, 698, 784, 0],
+        bass: [392, 392, 349, 349, 349, 349, 440, 440, 392, 392, 330, 330, 330, 330, 392, 392]
     },
-    // Pattern C — reflective valley
+    // C — bouncy bridge
     {
-        melody: [440, 392, 330, 294, 262, 294, 330, 392, 440, 494, 523, 494, 440, 392, 330, 0],
-        bass: [220, 220, 165, 165, 131, 131, 165, 165, 220, 220, 262, 262, 220, 220, 165, 165]
+        melody: [659, 587, 523, 587, 659, 523, 440, 0, 523, 587, 659, 784, 659, 587, 523, 0],
+        bass: [262, 262, 262, 262, 330, 330, 220, 220, 262, 262, 330, 330, 392, 392, 262, 262]
     },
-    // Pattern D — triumphant resolution
+    // D — energetic climb
     {
-        melody: [523, 494, 440, 523, 659, 784, 659, 0, 523, 440, 392, 440, 523, 659, 784, 0],
-        bass: [262, 262, 220, 220, 330, 330, 262, 262, 262, 262, 196, 196, 262, 262, 392, 392]
+        melody: [440, 523, 659, 523, 440, 392, 440, 0, 523, 659, 784, 659, 523, 440, 392, 0],
+        bass: [220, 220, 330, 330, 220, 220, 196, 196, 262, 262, 392, 392, 262, 262, 196, 196]
+    },
+    // E — triumphant peak
+    {
+        melody: [784, 880, 784, 659, 523, 659, 784, 0, 880, 784, 659, 523, 659, 784, 880, 0],
+        bass: [392, 392, 392, 392, 262, 262, 392, 392, 440, 440, 330, 330, 330, 330, 440, 440]
+    },
+    // F — cheerful resolution (back to start)
+    {
+        melody: [659, 784, 659, 523, 440, 523, 659, 0, 523, 440, 392, 440, 523, 587, 659, 0],
+        bass: [330, 330, 330, 330, 220, 220, 330, 330, 262, 262, 196, 196, 262, 262, 330, 330]
     },
 ];
 
-const BGM_NOTE_DUR = 0.2;
+const BGM_NOTE_DUR = 0.15;   // fast bouncy tempo like Bubble Bobble
 const BGM_BASE_VOL = 0.06;   // base melody volume (scaled by bgmVolume)
 const BGM_BASS_RATIO = 0.65; // bass relative to melody
 const BGM_ARP_RATIO = 0.35;  // arpeggio relative to melody
@@ -280,13 +291,13 @@ function schedulePattern() {
 }
 
 function startBGM() {
-    if (bgmRunning || isMuted) return;
+    if (bgmRunning || isMuted || bgmUserStopped) return;
     bgmRunning = true;
     bgmStarted = true;
 
     const ctx = getCtx();
     bgmGain = ctx.createGain();
-    bgmGain.gain.setValueAtTime(1, ctx.currentTime); // gain node at 1, volume handled per-note
+    bgmGain.gain.setValueAtTime(1, ctx.currentTime);
     bgmGain.connect(ctx.destination);
 
     schedulePattern();
@@ -330,20 +341,22 @@ export const SoundManager = {
     /** Play a named sound effect */
     play(name) {
         if (isMuted) return;
-        if (!bgmStarted && !bgmRunning) startBGM();
+        if (!bgmStarted && !bgmRunning && !bgmUserStopped) startBGM();
         const fn = SFX[name];
         if (fn) fn();
     },
 
     /** Start background music */
     startMusic() {
+        bgmUserStopped = false;
         if (!isMuted) startBGM();
     },
 
     /** Stop background music */
     stopMusic() {
+        bgmUserStopped = true;
         stopBGM();
-        bgmStarted = false; // allow re-start
+        bgmStarted = false;
     },
 
     /** Is BGM currently playing? */

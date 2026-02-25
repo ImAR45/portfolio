@@ -16,6 +16,7 @@ const ACHIEVEMENTS = [
     { id: 'scroll_found', title: 'Ancient Scroll', desc: 'Downloaded the resume scroll', xp: 20, icon: '📄' },
     { id: 'full_clear', title: '100% Explorer', desc: 'Visited every room!', xp: 50, icon: '🌟' },
     { id: 'secret_finder', title: 'Easter Egg Hunter', desc: 'Found a hidden secret', xp: 30, icon: '🥚' },
+    { id: 'game_challenger', title: 'Game Challenger', desc: 'Challenged the AI to a battle of wits', xp: 15, icon: '🎮' },
 ];
 
 const ROOM_ACHIEVEMENT_MAP = {
