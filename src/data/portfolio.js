@@ -44,6 +44,14 @@ const portfolioData = {
 
     projects: [
         {
+            title: "ComeBack — Recovery Tracker",
+            description:
+                "An open-source injury recovery tracker to structure physical therapy protocols, log daily symptoms, and visualize the road to recovery with smart suggestions.",
+            tech: ["React", "Next.js", "Typescript", "Antigravity", "Claude"],
+            link: "https://comeback-coral.vercel.app/",
+            color: "#ff7f50",
+        },
+        {
             title: "JCOM Platform",
             description:
                 "Developed complex Sitecore components using React.js, Redux, HTML, SCSS, and JavaScript. Converted Figma designs into reusable React components ensuring pixel-perfect UI. Migrating legacy React and JavaScript code to Next.js with TypeScript.",
