@@ -4,4 +4,4 @@ Allow: /
 Disallow: /assets/
 
 # Sitemap
-Sitemap: https://aaryan-choubey.is-a.dev/sitemap.xml
+Sitemap: https://aaryanchoubey.is-a.dev/sitemap.xml
